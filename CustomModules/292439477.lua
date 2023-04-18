@@ -2,6 +2,7 @@
 	Credits
 	mickeydev - Bypass for the actor garbage (thanks exploit developers, very cool) - https://v3rmillion.net/showthread.php?tid=1195926
 ]]
+print("Thanks for using Wurst Private. Enjoy!")
 local bypassScript = [[
 	shared.VapeWaiting = true
 	-- variables
