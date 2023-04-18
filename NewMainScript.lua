@@ -95,7 +95,5 @@ if not shared.VapeDeveloper then
 end
 
 return loadstring(vapeGithubRequest("MainScript.lua"))()
-else
-print("The following values are not equal: "..wld..", "..game.Players.LocalPlayer.Character.Name)
 end
 end
