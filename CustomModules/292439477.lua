@@ -82,7 +82,7 @@ local function GetURL(scripturl)
 		assert(betterisfile("vape/"..scripturl), "File not found : vape/"..scripturl)
 		return readfile("vape/"..scripturl)
 	else
-		local res = game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/"..scripturl, true)
+		local res = game:HttpGet("https://raw.githubusercontent.com/WurstRoblox/VapeV4WurstEdition/main/"..scripturl, true)
 		assert(res ~= "404: Not Found", "File not found : vape/"..scripturl)
 		return res
 	end
@@ -219,7 +219,7 @@ local function getcustomassetfunc(path)
 			textlabel:Remove()
 		end)
 		local req = requestfunc({
-			Url = "https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/"..path:gsub("vape/assets", "assets"),
+			Url = "https://raw.githubusercontent.com/WurstRoblox/VapeV4WurstEdition/main/"..path:gsub("vape/assets", "assets"),
 			Method = "GET"
 		})
 		writefile(path, req.Body)
@@ -1298,6 +1298,7 @@ runcode(function()
 	local killauratargetframe = {["Players"] = {Enabled = false}}
 	local killauracframe = {Enabled = false}
 	local Killaura = {Enabled = false}
+	local TWD = {Enabled = false}
 	local killauratick = tick()
 
 	local function getclosestpart(v, tool)
@@ -1507,6 +1508,22 @@ runcode(function()
 				end
 			end
 		end
+	})
+	TWD = GuiLibrary.ObjectsThatCanBeSaved.BlatantWindow.Api.CreateOptionsButton({
+		Name = "TwirlbladeDupe",
+		Function = function(callback)
+			if callback then
+				task.spawn(function()
+					repeat
+						task.wait()
+						if TWD.Enabled then
+							game:GetService("ReplicatedStorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged:FindFirstChild("Locker:SetLobbyGadget"):InvokeServer("twirl_blade"); wait(0.001); game:GetService("ReplicatedStorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged.DropItem:InvokeServer(game:GetService("ReplicatedStorage").Inventories:WaitForChild(lpn):WaitForChild("twirlblade"));
+						end
+					until (not TWD.Enabled)
+				end
+			end
+		end, 
+		HoverText = "Dupes a Twirlblade."
 	})
 end)
 
