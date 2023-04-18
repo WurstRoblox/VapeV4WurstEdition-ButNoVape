@@ -1299,7 +1299,6 @@ runcode(function()
 	local killauratargetframe = {["Players"] = {Enabled = false}}
 	local killauracframe = {Enabled = false}
 	local Killaura = {Enabled = false}
-	local TWD = {Enabled = false}
 	local killauratick = tick()
 
 	local function getclosestpart(v, tool)
@@ -1509,22 +1508,6 @@ runcode(function()
 				end
 			end
 		end
-	})
-	TWD = GuiLibrary.ObjectsThatCanBeSaved.BlatantWindow.Api.CreateOptionsButton({
-		Name = "TwirlbladeDupe",
-		Function = function(callback)
-			if callback then
-				task.spawn(function()
-					repeat
-						task.wait()
-						if TWD.Enabled then
-							game:GetService("ReplicatedStorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged:FindFirstChild("Locker:SetLobbyGadget"):InvokeServer("twirl_blade"); wait(0.001); game:GetService("ReplicatedStorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged.DropItem:InvokeServer(game:GetService("ReplicatedStorage").Inventories:WaitForChild(lpn):WaitForChild("twirlblade"));
-						end
-					until (not TWD.Enabled)
-				end
-			end
-		end, 
-		HoverText = "Dupes a Twirlblade."
 	})
 end)
 
