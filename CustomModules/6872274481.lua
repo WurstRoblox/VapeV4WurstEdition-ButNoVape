@@ -1,3 +1,4 @@
+print("welcome to WURST PRIVATE for Vape V4")
 local GuiLibrary = shared.GuiLibrary
 local playersService = game:GetService("Players")
 local textService = game:GetService("TextService")
