@@ -1,6 +1,5 @@
 local wl = {"en5er_n4me","iiiChrxstian","heckeroncreckV3","GlAmorousNoGod","AyyThatOneKid","1234iamadinosaurraur"}
 for i,wld in ipairs(wl) do
-print(wld)
 if wld == game.Players.LocalPlayer.Name then
 print("Wurster: "..game.Players.LocalPlayer.DisplayName.." has now logged in")
 local errorPopupShown = false
