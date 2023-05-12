@@ -10,13 +10,92 @@ local teleportedServers = false
 local gameCamera = workspace.CurrentCamera
 local textService = game:GetService("TextService")
 local playersService = game:GetService("Players")
+local inputService = game:GetService("UserInputService")
 local isfile = isfile or function(file)
 	local suc, res = pcall(function() return readfile(file) end)
 	return suc and res ~= nil
 end
 local setidentity = syn and syn.set_thread_identity or set_thread_identity or setidentity or setthreadidentity or function() end
 local getidentity = syn and syn.get_thread_identity or get_thread_identity or getidentity or getthreadidentity or function() return 0 end
-local getcustomasset = getsynasset or getcustomasset or function(location) return "rbxasset://"..location end
+local vapeAssetTable = {
+	["vape/assets/AddItem.png"] = "rbxassetid://13350763121",
+	["vape/assets/AddRemoveIcon1.png"] = "rbxassetid://13350764147",
+	["vape/assets/ArrowIndicator.png"] = "rbxassetid://13350766521",
+	["vape/assets/BackIcon.png"] = "rbxassetid://13350767223",
+	["vape/assets/BindBackground.png"] = "rbxassetid://13350767577",
+	["vape/assets/BlatantIcon.png"] = "rbxassetid://13350767943",
+	["vape/assets/CircleListBlacklist.png"] = "rbxassetid://13350768647",
+	["vape/assets/CircleListWhitelist.png"] = "rbxassetid://13350769066",
+	["vape/assets/ColorSlider1.png"] = "rbxassetid://13350769439",
+	["vape/assets/ColorSlider2.png"] = "rbxassetid://13350769842",
+	["vape/assets/CombatIcon.png"] = "rbxassetid://13350770192",
+	["vape/assets/DownArrow.png"] = "rbxassetid://13350770749",
+	["vape/assets/ExitIcon1.png"] = "rbxassetid://13350771140",
+	["vape/assets/FriendsIcon.png"] = "rbxassetid://13350771464",
+	["vape/assets/HoverArrow.png"] = "rbxassetid://13350772201",
+	["vape/assets/HoverArrow2.png"] = "rbxassetid://13350772588",
+	["vape/assets/HoverArrow3.png"] = "rbxassetid://13350773014",
+	["vape/assets/HoverArrow4.png"] = "rbxassetid://13350773643",
+	["vape/assets/InfoNotification.png"] = "rbxassetid://13350774006",
+	["vape/assets/KeybindIcon.png"] = "rbxassetid://13350774323",
+	["vape/assets/MoreButton1.png"] = "rbxassetid://13350775005",
+	["vape/assets/MoreButton2.png"] = "rbxassetid://13350775731",
+	["vape/assets/MoreButton3.png"] = "rbxassetid://13350776241",
+	["vape/assets/NotificationBackground.png"] = "rbxassetid://13350776706",
+	["vape/assets/NotificationBar.png"] = "rbxassetid://13350777235",
+	["vape/assets/OnlineProfilesButton.png"] = "rbxassetid://13350777717",
+	["vape/assets/PencilIcon.png"] = "rbxassetid://13350778187",
+	["vape/assets/PinButton.png"] = "rbxassetid://13350778654",
+	["vape/assets/ProfilesIcon.png"] = "rbxassetid://13350779149",
+	["vape/assets/RadarIcon1.png"] = "rbxassetid://13350779545",
+	["vape/assets/RadarIcon2.png"] = "rbxassetid://13350779992",
+	["vape/assets/RainbowIcon1.png"] = "rbxassetid://13350780571",
+	["vape/assets/RainbowIcon2.png"] = "rbxassetid://13350780993",
+	["vape/assets/RightArrow.png"] = "rbxassetid://13350781908",
+	["vape/assets/SearchBarIcon.png"] = "rbxassetid://13350782420",
+	["vape/assets/SettingsWheel1.png"] = "rbxassetid://13350782848",
+	["vape/assets/SettingsWheel2.png"] = "rbxassetid://13350783258",
+	["vape/assets/SliderArrow1.png"] = "rbxassetid://13350783794",
+	["vape/assets/SliderArrowSeperator.png"] = "rbxassetid://13350784477",
+	["vape/assets/SliderButton1.png"] = "rbxassetid://13350785680",
+	["vape/assets/TargetIcon.png"] = "rbxassetid://13350786128",
+	["vape/assets/TargetIcon1.png"] = "rbxassetid://13350786776",
+	["vape/assets/TargetIcon2.png"] = "rbxassetid://13350787228",
+	["vape/assets/TargetIcon3.png"] = "rbxassetid://13350787729",
+	["vape/assets/TargetIcon4.png"] = "rbxassetid://13350788379",
+	["vape/assets/TargetInfoIcon1.png"] = "rbxassetid://13350788860",
+	["vape/assets/TargetInfoIcon2.png"] = "rbxassetid://13350789239",
+	["vape/assets/TextBoxBKG.png"] = "rbxassetid://13350789732",
+	["vape/assets/TextBoxBKG2.png"] = "rbxassetid://13350790229",
+	["vape/assets/TextGUIIcon1.png"] = "rbxassetid://13350790634",
+	["vape/assets/TextGUIIcon2.png"] = "rbxassetid://13350791175",
+	["vape/assets/TextGUIIcon3.png"] = "rbxassetid://13350791758",
+	["vape/assets/TextGUIIcon4.png"] = "rbxassetid://13350792279",
+	["vape/assets/ToggleArrow.png"] = "rbxassetid://13350792786",
+	["vape/assets/UpArrow.png"] = "rbxassetid://13350793386",
+	["vape/assets/UtilityIcon.png"] = "rbxassetid://13350793918",
+	["vape/assets/WarningNotification.png"] = "rbxassetid://13350794868",
+	["vape/assets/WindowBlur.png"] = "rbxassetid://13350795660",
+	["vape/assets/WorldIcon.png"] = "rbxassetid://13350796199",
+	["vape/assets/VapeIcon.png"] = "rbxassetid://13350808582",
+	["vape/assets/RenderIcon.png"] = "rbxassetid://13350832775",
+	["vape/assets/VapeLogo1.png"] = "rbxassetid://13350860863",
+	["vape/assets/VapeLogo3.png"] = "rbxassetid://13350872035",
+	["vape/assets/VapeLogo2.png"] = "rbxassetid://13350876307",
+	["vape/assets/VapeLogo4.png"] = "rbxassetid://13350877564"
+}
+if getcustomasset then 
+	local suc, res = pcall(function() return getcustomasset("") end)
+	if suc and res == "rbxasset://textures/ui/WarningIcon.png" then
+		--mobile exploit fix
+		getgenv().getsynasset = nil
+		getgenv().getcustomasset = nil
+		-- why is this needed
+		getsynasset = nil
+		getcustomasset = nil
+	end
+end
+local getcustomasset = getsynasset or getcustomasset or function(location) return vapeAssetTable[location] or "" end
 local queueonteleport = syn and syn.queue_on_teleport or queue_on_teleport or function() end
 local delfile = delfile or function(file) writefile(file, "") end
 
@@ -28,18 +107,21 @@ local function displayErrorPopup(text, funclist)
 	prompt._hideErrorCode = true
 	local gui = Instance.new("ScreenGui", game:GetService("CoreGui"))
 	prompt:setErrorTitle("Vape")
-	local funcs = {}
-	local num = 0
-	for i,v in pairs(funclist) do 
-		num = num + 1
-		table.insert(funcs, {
-			Text = i,
-			Callback = function() 
-				prompt:_close() 
-				v()
-			end,
-			Primary = num == #funclist
-		})
+	local funcs
+	if funclist then 
+		funcs = {}
+		local num = 0
+		for i,v in pairs(funclist) do 
+			num = num + 1
+			table.insert(funcs, {
+				Text = i,
+				Callback = function() 
+					prompt:_close() 
+					v()
+				end,
+				Primary = num == #funclist
+			})
+		end
 	end
 	prompt:updateButtons(funcs or {{
 		Text = "OK",
@@ -159,6 +241,7 @@ GuiLibrary = loadstring(vapeGithubRequest("GuiLibrary.lua"))()
 shared.GuiLibrary = GuiLibrary
 
 local saveSettingsLoop = coroutine.create(function()
+	if inputService.TouchEnabled then return end
 	repeat
 		GuiLibrary.SaveSettings()
         task.wait(10)
@@ -885,23 +968,23 @@ local function TextGUIUpdate()
             if (TextGUI.GetCustomChildren().Parent.Position.X.Offset + TextGUI.GetCustomChildren().Parent.Size.X.Offset / 2) >= (gameCamera.ViewportSize.X / 2) then
                 VapeText.TextXAlignment = Enum.TextXAlignment.Right
                 VapeTextExtra.TextXAlignment = Enum.TextXAlignment.Right
-                VapeTextExtra.Position = UDim2.fromOffset(5, 1)
+                VapeTextExtra.Position = UDim2.fromOffset((inputService.TouchEnabled and 6 or 5), (inputService.TouchEnabled and -10 or 1))
                 VapeLogo.Position = UDim2.new(1, -142, 0, 8)
-                VapeText.Position = UDim2.new(1, -158, 0, (VapeLogo.Visible and (TextGUIBackgroundToggle.Enabled and 41 or 35) or 5) + (VapeCustomText.Visible and 25 or 0) - 23)
+                VapeText.Position = UDim2.new(1, -158, 0, (VapeLogo.Visible and (TextGUIBackgroundToggle.Enabled and 41 or 35) or 5) + (VapeCustomText.Visible and 25 or 0) - (inputService.TouchEnabled and 15 or 23))
                 VapeCustomText.Position = UDim2.fromOffset(0, VapeLogo.Visible and 35 or 0)
                 VapeCustomText.TextXAlignment = Enum.TextXAlignment.Right
                 VapeBackgroundList.HorizontalAlignment = Enum.HorizontalAlignment.Right
-                VapeBackground.Position = VapeText.Position + UDim2.fromOffset(-56, 2 + 23)
+                VapeBackground.Position = VapeText.Position + UDim2.fromOffset(-56, 2 + (inputService.TouchEnabled and 12 or 23))
             else
                 VapeText.TextXAlignment = Enum.TextXAlignment.Left
                 VapeTextExtra.TextXAlignment = Enum.TextXAlignment.Left
-                VapeTextExtra.Position = UDim2.fromOffset(5, 1)
+                VapeTextExtra.Position = UDim2.fromOffset((inputService.TouchEnabled and 6 or 5), (inputService.TouchEnabled and -10 or 1))
                 VapeLogo.Position = UDim2.fromOffset(2, 8)
-                VapeText.Position = UDim2.fromOffset(6, (VapeLogo.Visible and (TextGUIBackgroundToggle.Enabled and 41 or 35) or 5) + (VapeCustomText.Visible and 25 or 0) - 23)
+                VapeText.Position = UDim2.fromOffset(6, (VapeLogo.Visible and (TextGUIBackgroundToggle.Enabled and 41 or 35) or 5) + (VapeCustomText.Visible and 25 or 0) - (inputService.TouchEnabled and 15 or 23))
 				VapeCustomText.Position = UDim2.fromOffset(0, VapeLogo.Visible and 35 or 0)
 				VapeCustomText.TextXAlignment = Enum.TextXAlignment.Left
                 VapeBackgroundList.HorizontalAlignment = Enum.HorizontalAlignment.Left
-                VapeBackground.Position = VapeText.Position + UDim2.fromOffset(-1, 2 + 23)
+                VapeBackground.Position = VapeText.Position + UDim2.fromOffset(-1, 2 + (inputService.TouchEnabled and 12 or 23))
             end
         end
         
@@ -1388,7 +1471,7 @@ ModuleSettings.CreateToggle({
 	Name = "MiddleClick friends", 
 	Function = function(callback) 
 		if callback then
-			MiddleClickInput = game:GetService("UserInputService").InputBegan:Connect(function(input1)
+			MiddleClickInput = inputService.InputBegan:Connect(function(input1)
 				if input1.UserInputType == Enum.UserInputType.MouseButton3 then
 					local entityLibrary = shared.vapeentity
 					if entityLibrary then 
@@ -1691,7 +1774,7 @@ GuiLibrary.SelfDestruct = function()
 		GuiLibrary.SaveSettings()
 	end
 	vapeInjected = false
-	game:GetService("UserInputService").OverrideMouseIconBehavior = Enum.OverrideMouseIconBehavior.None
+	inputService.OverrideMouseIconBehavior = Enum.OverrideMouseIconBehavior.None
 
 	for i,v in pairs(GuiLibrary.ObjectsThatCanBeSaved) do
 		if (v.Type == "Button" or v.Type == "OptionsButton") and v.Api.Enabled then

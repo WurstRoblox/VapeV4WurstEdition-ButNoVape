@@ -6,6 +6,7 @@ local textChatService = game:GetService("TextChatService")
 local inputService = game:GetService("UserInputService")
 local runService = game:GetService("RunService")
 local replicatedStorageService = game:GetService("ReplicatedStorage")
+local tweenService = game:GetService("TweenService")
 local gameCamera = workspace.CurrentCamera
 local lplr = playersService.LocalPlayer
 local vapeConnections = {}
@@ -27,7 +28,8 @@ local isnetworkowner = isnetworkowner or function(part)
 	end
 	return networkownerswitch <= tick()
 end
-local getcustomasset = getsynasset or getcustomasset or function(location) return "rbxasset://"..location end
+local vapeAssetTable = {["vape/assets/VapeCape.png"] = "rbxassetid://13380453812"}
+local getcustomasset = getsynasset or getcustomasset or function(location) return vapeAssetTable[location] or "" end
 local queueonteleport = syn and syn.queue_on_teleport or queue_on_teleport or function() end
 local synapsev3 = syn and syn.toast_notification and "V3" or ""
 local worldtoscreenpoint = function(pos)
@@ -159,17 +161,17 @@ do
 		repeat
 			task.wait()
 			if entityLibrary.isAlive then
-				table.insert(postable, {Time = tick(), Position = entityLibrary.character.HumanoidRootPart.Position})
+				table.insert(postable, {Time = tick() + 0.1, Position = entityLibrary.character.HumanoidRootPart.Position})
 				if #postable > 100 then 
 					table.remove(postable, 1)
 				end
 				local closestmag = 9e9
 				local closestpos = entityLibrary.character.HumanoidRootPart.Position
 				for i, v in pairs(postable) do 
-					local mag = math.abs(tick() - (v.Time + 0.1))
+					local mag = math.abs(tick() - v.Time)
 					if mag < closestmag then
 						closestmag = mag
-						closestpos = (postable[i - 1] or v).Position:lerp(v.Position, 0.85)
+						closestpos = v.Position
 					end
 				end
 				entityLibrary.LocalPosition = closestpos
@@ -323,14 +325,16 @@ do
 				end
 			end
 			WhitelistFunctions.WhitelistTable = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/whitelists/"..commit.."/whitelist2.json", true))
-			local yeahok = 'playerattackable = (not tab) or (not (type(tab) == "table" and tab.invulnerable or true)) '
 			for i, v in pairs(WhitelistFunctions.WhitelistTable) do 
 				local orig = v
-				local origamount = #v
+				local origamount = 0
+				for i2, v2 in pairs(v) do origamount = origamount + 1 end
 				local prompt = false
 				task.spawn(function()
 					repeat
-						if WhitelistFunctions.WhitelistTable[i] ~= orig or #WhitelistFunctions.WhitelistTable[i] ~= origamount or #yeahok ~= 90 then 
+						local newamount = 0
+						for i2, v2 in pairs(WhitelistFunctions.WhitelistTable[i]) do newamount = newamount + 1 end
+						if WhitelistFunctions.WhitelistTable[i] ~= orig or newamount ~= origamount then 
 							if not prompt then 
 								prompt = true
 								local bkg = Instance.new("Frame")
@@ -430,7 +434,7 @@ Stop trying to bypass my whitelist system, I'll keep fighting until you give up 
 								local widgettextsize = Instance.new("UITextSizeConstraint")
 								widgettextsize.MaxTextSize = 18
 								widgettextsize.Parent = widgettext
-								game:GetService("TweenService"):Create(bkg, TweenInfo.new(0.12), {BackgroundTransparency = 0.6}):Play()
+								tweenService:Create(bkg, TweenInfo.new(0.12), {BackgroundTransparency = 0.6}):Play()
 								task.wait(0.13)
 							end
 							pcall(function()
@@ -808,7 +812,7 @@ runFunction(function()
 			if not plr then return end
 			targetPart = plr[targetPart]
 			if SilentAimWallbang.Enabled then
-				return {targetPart, targetPart.Position, (targetPart.Position - origin), targetPart.Material}
+				return {targetPart, targetPart.Position, Vector3.zero, targetPart.Material}
 			end
 			SilentAimShot = plr
 			SlientAimShotTick = tick() + 1
@@ -1194,7 +1198,7 @@ runFunction(function()
 			for i,v in pairs(entityLibrary.entityList) do 
 				if v.Targetable and v.Character then
 					if ray.Instance:IsDescendantOf(v.Character) then
-						return targetCheck(v) and v
+						return isVulnerable(v) and v
 					end
 				end
 			end
@@ -1450,6 +1454,15 @@ runFunction(function()
 						FlyDown = false
 					end
 				end))
+				if inputService.TouchEnabled then
+					pcall(function()
+						local jumpButton = lplr.PlayerGui.TouchGui.TouchControlFrame.JumpButton
+						table.insert(Fly.Connections, jumpButton:GetPropertyChangedSignal("ImageRectOffset"):Connect(function()
+							FlyUp = jumpButton.ImageRectOffset.X == 146
+						end))
+						FlyUp = jumpButton.ImageRectOffset.X == 146
+					end)
+				end
 				if FlyMethod.Value == "Jump" and entityLibrary.isAlive then
 					entityLibrary.character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
 				end
@@ -5575,12 +5588,12 @@ runFunction(function()
 										flyingsound:Play()
 									end
 									if currenttween then currenttween:Cancel() end
-									tween = game:GetService("TweenService"):Create(chairlegs, TweenInfo.new(0.15), {Size = Vector3.zero})
+									tween = tweenService:Create(chairlegs, TweenInfo.new(0.15), {Size = Vector3.zero})
 									tween.Completed:Connect(function(state)
 										if state == Enum.PlaybackState.Completed then 
 											chairfan.Transparency = 0
 											chairlegs.Transparency = 1
-											tween = game:GetService("TweenService"):Create(chairfan, TweenInfo.new(0.15), {Size = Vector3.new(1.534, 0.328, 1.537) / Vector3.new(791.138, 168.824, 792.027)})
+											tween = tweenService:Create(chairfan, TweenInfo.new(0.15), {Size = Vector3.new(1.534, 0.328, 1.537) / Vector3.new(791.138, 168.824, 792.027)})
 											tween:Play()
 										end
 									end)
@@ -5593,12 +5606,12 @@ runFunction(function()
 										movingsound:Play()
 									end
 									if currenttween then currenttween:Cancel() end
-									tween = game:GetService("TweenService"):Create(chairfan, TweenInfo.new(0.15), {Size = Vector3.zero})
+									tween = tweenService:Create(chairfan, TweenInfo.new(0.15), {Size = Vector3.zero})
 									tween.Completed:Connect(function(state)
 										if state == Enum.PlaybackState.Completed then 
 											chairfan.Transparency = 1
 											chairlegs.Transparency = 0
-											tween = game:GetService("TweenService"):Create(chairlegs, TweenInfo.new(0.15), {Size = Vector3.new(1.8, 1.2, 1.8) / Vector3.new(10.432, 8.105, 9.488)})
+											tween = tweenService:Create(chairlegs, TweenInfo.new(0.15), {Size = Vector3.new(1.8, 1.2, 1.8) / Vector3.new(10.432, 8.105, 9.488)})
 											tween:Play()
 										end
 									end)
@@ -5633,6 +5646,71 @@ runFunction(function()
 				chairhighlight.OutlineColor = Color3.fromHSV(h, s, v)
 			end
 		end
+	})
+end)
+
+runFunction(function()
+	local SongBeats = {Enabled = false}
+	local SongBeatsList = {ObjectList = {}}
+	local SongTween
+	local SongAudio
+	local SongFOV
+
+	local function PlaySong(arg)
+		local args = arg:split(":")
+		local song = isfile(args[1]) and getcustomasset(args[1])
+		if not song then 
+			warningNotification("SongBeats", "missing music file "..args[1], 5)
+			SongBeats.ToggleButton(false)
+			return
+		end
+		local bpm = 1 / (args[2] / 60)
+		SongAudio = Instance.new("Sound")
+		SongAudio.SoundId = song
+		SongAudio.Parent = workspace
+		SongAudio:Play()
+		repeat
+			repeat task.wait() until SongAudio.IsLoaded or (not SongBeats.Enabled) 
+			if (not SongBeats.Enabled) then break end
+			gameCamera.FieldOfView = SongFOV - 5
+			if SongTween then SongTween:Cancel() end
+			SongTween = tweenService:Create(gameCamera, TweenInfo.new(0.2), {FieldOfView = SongFOV})
+			SongTween:Play()
+			task.wait(bpm)
+		until (not SongBeats.Enabled) or SongAudio.IsPaused
+	end
+
+	SongBeats = GuiLibrary.ObjectsThatCanBeSaved.RenderWindow.Api.CreateOptionsButton({
+		Name = "SongBeats",
+		Function = function(callback)
+			if callback then 
+				SongFOV = gameCamera.FieldOfView
+				task.spawn(function()
+					if #SongBeatsList.ObjectList <= 0 then 
+						warningNotification("SongBeats", "no songs", 5)
+						SongBeats.ToggleButton(false)
+						return
+					end
+					local lastChosen
+					repeat
+						local newSong
+						repeat newSong = SongBeatsList.ObjectList[Random.new():NextInteger(1, #SongBeatsList.ObjectList)] task.wait() until newSong ~= lastChosen or #SongBeatsList.ObjectList <= 1
+						lastChosen = newSong
+						PlaySong(newSong)
+						if not SongBeats.Enabled then break end
+						task.wait(2)
+					until (not SongBeats.Enabled)
+				end)
+			else
+				if SongAudio then SongAudio:Destroy() end
+				if SongTween then SongTween:Cancel() end
+				gameCamera.FieldOfView = SongFOV
+			end
+		end
+	})
+	SongBeatsList = SongBeats.CreateTextList({
+		Name = "SongList",
+		TempText = "songpath:bpm"
 	})
 end)
 
@@ -5773,7 +5851,6 @@ runFunction(function()
 	})
 end)
 
-
 runFunction(function()
 	local Disabler = {Enabled = false}
 	local DisablerAntiKick = {Enabled = false}
@@ -5821,4 +5898,78 @@ runFunction(function()
 			end
 		end
 	})
+end)
+
+runFunction(function()
+	local Keystrokes = {}
+	local keys = {}
+	local keystrokesframe
+	local keyconnection1
+	local keyconnection2
+
+	local function createKeystroke(keybutton, pos, pos2)
+		local key = Instance.new("Frame")
+		key.Size = keybutton == Enum.KeyCode.Space and UDim2.new(0, 110, 0, 24) or UDim2.new(0, 34, 0, 36)
+		key.BackgroundColor3 = Color3.new()
+		key.BackgroundTransparency = 0.5
+		key.Position = pos
+		key.Parent = keystrokesframe
+		local keytext = Instance.new("TextLabel")
+		keytext.BackgroundTransparency = 1
+		keytext.Size = UDim2.new(1, 0, 1, 0)
+		keytext.Font = Enum.Font.Gotham
+		keytext.Text = keybutton == Enum.KeyCode.Space and "______" or keybutton.Name
+		keytext.TextXAlignment = Enum.TextXAlignment.Left
+		keytext.TextYAlignment = Enum.TextYAlignment.Top
+		keytext.Position = pos2
+		keytext.TextSize = keybutton == Enum.KeyCode.Space and 18 or 15
+		keytext.TextColor3 = Color3.new(1, 1, 1)
+		keytext.Parent = key
+		local keycorner = Instance.new("UICorner")
+		keycorner.CornerRadius = UDim.new(0, 4)
+		keycorner.Parent = key
+		keys[keybutton] = {Key = key}
+	end
+
+	Keystrokes = GuiLibrary.CreateLegitModule({
+		Name = "Keystrokes",
+		Function = function(callback)
+			if callback then 
+				keyconnection1 = inputService.InputBegan:Connect(function(inputType)
+					local key = keys[inputType.KeyCode]
+					if key then 
+						if key.Tween then key.Tween:Cancel() end
+						if key.Tween2 then key.Tween2:Cancel() end
+						key.Tween = tweenService:Create(key.Key, TweenInfo.new(0.1), {BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0})
+						key.Tween:Play()
+						key.Tween2 = tweenService:Create(key.Key.TextLabel, TweenInfo.new(0.1), {TextColor3 = Color3.new()})
+						key.Tween2:Play()
+					end
+				end)
+				keyconnection2 = inputService.InputEnded:Connect(function(inputType)
+					local key = keys[inputType.KeyCode]
+					if key then 
+						if key.Tween then key.Tween:Cancel() end
+						if key.Tween2 then key.Tween2:Cancel() end
+						key.Tween = tweenService:Create(key.Key, TweenInfo.new(0.1), {BackgroundColor3 = Color3.new(), BackgroundTransparency = 0.5})
+						key.Tween:Play()
+						key.Tween2 = tweenService:Create(key.Key.TextLabel, TweenInfo.new(0.1), {TextColor3 = Color3.new(1, 1, 1)})
+						key.Tween2:Play()
+					end
+				end)
+			else
+				if keyconnection1 then keyconnection1:Disconnect() end
+				if keyconnection2 then keyconnection2:Disconnect() end
+			end
+		end
+	})
+	keystrokesframe = Instance.new("Frame")
+	keystrokesframe.Size = UDim2.new(0, 110, 0, 176)
+	keystrokesframe.BackgroundTransparency = 1
+	keystrokesframe.Parent = Keystrokes.GetCustomChildren()
+	createKeystroke(Enum.KeyCode.W, UDim2.new(0, 38, 0, 0), UDim2.new(0, 6, 0, 5))
+	createKeystroke(Enum.KeyCode.S, UDim2.new(0, 38, 0, 42), UDim2.new(0, 8, 0, 5))
+	createKeystroke(Enum.KeyCode.A, UDim2.new(0, 0, 0, 42), UDim2.new(0, 7, 0, 5))
+	createKeystroke(Enum.KeyCode.D, UDim2.new(0, 76, 0, 42), UDim2.new(0, 8, 0, 5))
+	createKeystroke(Enum.KeyCode.Space, UDim2.new(0, 0, 0, 83), UDim2.new(0, 25, 0, -10))
 end)
