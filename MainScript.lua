@@ -276,7 +276,7 @@ local Combat = GuiLibrary.CreateWindow({
 	IconSize = 15
 })
 local Blatant = GuiLibrary.CreateWindow({
-	Name = "Blatant", 
+	Name = "Obvi", 
 	Icon = "vape/assets/BlatantIcon.png", 
 	IconSize = 16
 })
@@ -318,7 +318,7 @@ GUI.CreateButton({
 	IconSize = 15
 })
 GUI.CreateButton({
-	Name = "Blatant", 
+	Name = "Obvi", 
 	Function = function(callback) Blatant.SetVisible(callback) end, 
 	Icon = "vape/assets/BlatantIcon.png", 
 	IconSize = 16
@@ -1541,7 +1541,7 @@ GUIColorSlider = GUI.CreateColorSlider("GUI Theme", function(h, s, v)
 	GuiLibrary.UpdateUI(h, s, v) 
 end)
 local BlatantModeToggle = GUI.CreateToggle({
-	Name = "Blatant mode",
+	Name = "Obvi mode",
 	Function = function() end,
 	HoverText = "Required for certain features."
 })
@@ -1950,7 +1950,7 @@ local function loadVape()
 	if not shared.VapeSwitchServers then
 		if BlatantModeToggle.Enabled then
 			pcall(function()
-				local frame = GuiLibrary.CreateNotification("Blatant Enabled", "Vape is now in Blatant Mode.", 5.5, "assets/WarningNotification.png")
+				local frame = GuiLibrary.CreateNotification("Blatant Enabled", "Wurst is now in Blatant Mode.", 5.5, "assets/WarningNotification.png")
 				frame.Frame.Frame.ImageColor3 = Color3.fromRGB(236, 129, 44)
 			end)
 		end
