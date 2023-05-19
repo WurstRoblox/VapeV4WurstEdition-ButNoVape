@@ -276,7 +276,7 @@ local Combat = GuiLibrary.CreateWindow({
 	IconSize = 15
 })
 local Blatant = GuiLibrary.CreateWindow({
-	Name = "Obvi", 
+	Name = "Blatant", 
 	Icon = "vape/assets/BlatantIcon.png", 
 	IconSize = 16
 })
@@ -318,7 +318,7 @@ GUI.CreateButton({
 	IconSize = 15
 })
 GUI.CreateButton({
-	Name = "Obvi", 
+	Name = "Blatant", 
 	Function = function(callback) Blatant.SetVisible(callback) end, 
 	Icon = "vape/assets/BlatantIcon.png", 
 	IconSize = 16
@@ -1541,7 +1541,7 @@ GUIColorSlider = GUI.CreateColorSlider("GUI Theme", function(h, s, v)
 	GuiLibrary.UpdateUI(h, s, v) 
 end)
 local BlatantModeToggle = GUI.CreateToggle({
-	Name = "Obvi mode",
+	Name = "Bruh mode",
 	Function = function() end,
 	HoverText = "Required for certain features."
 })
