@@ -1,6 +1,6 @@
 repeat task.wait() until game:IsLoaded()
 local GuiLibrary
-local baseDirectory = (shared.VapePrivate and "vapeprivate/" or "vape/")
+local baseDirectory = (shared.VapePrivate and "vapeprivate/" or "vapee/")
 local vapeInjected = true
 local oldRainbow = false
 local errorPopupShown = false
