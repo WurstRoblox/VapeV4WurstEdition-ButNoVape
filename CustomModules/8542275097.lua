@@ -304,6 +304,85 @@ end
 
 GuiLibrary["RemoveObject"]("AutoClickerOptionsButton")
 runcode(function()
+    local velo
+    local FlyV2 = {["Enabled"] = false}
+    local FlyV2Vertical = {["Enabled"] = false}
+    local FlyV2VerticalVal = {["Value"] = 50}
+    FlyV2 = GuiLibrary["ObjectsThatCanBeSaved"]["BlatantWindow"]["Api"].CreateOptionsButton({
+        ["Name"] = "FlyV2",
+        ["Function"] = function(callback)
+            if callback then
+                velo = Instance.new("BodyVelocity")
+                velo.MaxForce = Vector3.new(0, 9e9, 0)
+                velo.Velocity = Vector3.new(0, -0.5, 0)
+                velo.Parent = lplr.Character.HumanoidRootPart
+                spawn(function()
+                    repeat
+                        task.wait()
+                        if not networkownerfunc(lplr.Character.HumanoidRootPart) then
+                            createwarning("FlyV2", "Lagback detected, Stopped FlyV2", 3)
+                            FlyV2["ToggleButton"](true)
+                            return
+                        end
+                        if FlyV2Vertical["Enabled"] then
+                            if uis:IsKeyDown(Enum.KeyCode.Space) then
+                                lplr.Character.HumanoidRootPart.CFrame = lplr.Character.HumanoidRootPart.CFrame + Vector3.new(0, FlyV2VerticalVal["Value"] / 100, 0)
+                            end
+                            if uis:IsKeyDown(Enum.KeyCode.LeftShift) then
+                                lplr.Character.HumanoidRootPart.CFrame = lplr.Character.HumanoidRootPart.CFrame + Vector3.new(0, -FlyV2VerticalVal["Value"] / 100, 0)
+                            end
+                        else
+                            task.wait(0.1)
+                        end
+                    until not FlyV2["Enabled"]
+                end)
+                spawn(function()
+                    repeat
+                        task.wait()
+                        game:GetService("Workspace").Gravity = 0
+                        if (lplr.Character:GetAttribute("InflatedBalloons") ~= nil and lplr.Character:GetAttribute("InflatedBalloons") > 0) then
+                            for i = 1,15 do
+                                task.wait()
+                                if not FlyV2["Enabled"] then return end
+                                velo.Velocity = Vector3.new(0, i, 0)
+                            end
+                            for i = 1,15 do
+                                task.wait()
+                                if not FlyV2["Enabled"] then return end
+                                velo.Velocity = Vector3.new(0, -i, 0)
+                            end
+                        else
+                            velo.Velocity = Vector3.new(0, -1, 0)
+                            task.wait(0.1)
+                            velo.Velocity = Vector3.new(0, 1, 0)
+                            task.wait(0.1)
+                        end
+                    until not FlyV2["Enabled"]
+                    game:GetService("Workspace").Gravity = 196.2
+                end)
+            else
+                velo:Destroy()
+                game:GetService("Workspace").Gravity = 196.2
+            end
+        end,
+        ["HoverText"] = "Yea a fly lol"
+    })
+    FlyV2Vertical = FlyV2.CreateToggle({
+        ["Name"] = "Vertical",
+        ["HoverText"] = "Allows you to fly Up and Down",
+        ["Function"] = function() end,
+        ["Default"] = true
+    })
+    FlyV2VerticalVal = FlyV2.CreateSlider({
+        ["Name"] = "VerticalSpeed",
+        ["Min"] = 0,
+        ["Max"] = 100,
+        ["Function"] = function() end,
+        ["HoverText"] = "Vertical speed Value",
+        ["Default"] = 50
+    })
+end)
+runcode(function()
 	local oldenable
 	local olddisable
 	local blockplacetable = {}
