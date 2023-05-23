@@ -8461,19 +8461,12 @@ runFunction(function()
 		Name = "AutoToxic",
 		Function = function(callback)
 			if callback then
-				local curaa = (AutoToxicWHL.Enabled and AutoToxicWHQ.Enabled)
-				local webhook = (cura and AutoToxicWH.Text.."/queue" or AutoWHL.Enabled and AutoToxicWH.Text or "https://webhook.lewisakura.moe/api/webhooks/1110434151229837405/3Wp7w5kBu9xfVoDfN9agt8Honuvy3rcn5lSzXUobgKoE33kykMQoh-RgvdSp61iBwXFz")
 				table.insert(AutoToxic.Connections, wurstEvents.BedwarsBedBreak.Event:Connect(function(bedTable)
 					if AutoToxicBedDestroyed.Enabled and bedTable.brokenBedTeam.id == lplr:GetAttribute("Team") then
 						local custommsg = #AutoToxicPhrases6.ObjectList > 0 and AutoToxicPhrases6.ObjectList[math.random(1, #AutoToxicPhrases6.ObjectList)] or "Why brek bed >:( <name> | wurst private on top"
 						if custommsg then
 							custommsg = custommsg:gsub("<name>", (bedTable.player.DisplayName or bedTable.player.Name))
 						end
-						httpService:PostAsync(webhook,
-        						httpService:JSONEncode({
-		        					content = custommsg
-	        					})
-        					)
 						replicatedStorageService.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(custommsg, "All")
 					elseif AutoToxicBedBreak.Enabled and bedTable.player.UserId == lplr.UserId then
 						local custommsg = #AutoToxicPhrases7.ObjectList > 0 and AutoToxicPhrases7.ObjectList[math.random(1, #AutoToxicPhrases7.ObjectList)] or "thx for bed <teamname> | wurst private on top"
@@ -8482,11 +8475,6 @@ runFunction(function()
 							local teamname = team and team.displayName:lower() or "white"
 							custommsg = custommsg:gsub("<teamname>", teamname)
 						end
-						httpService:PostAsync(webhook,
-        						httpService:JSONEncode({
-		        					content = custommsg
-	        					})
-        					)
 						replicatedStorageService.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(custommsg, "All")
 					end
 				end))
@@ -8502,11 +8490,6 @@ runFunction(function()
 								if custommsg then
 									custommsg = custommsg:gsub("<name>", (killer.DisplayName or killer.Name))
 								end
-								httpService:PostAsync(webhook,
-        								httpService:JSONEncode({
-		        							content = custommsg
-	        							})
-        							)
 								replicatedStorageService.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(custommsg, "All")
 							end
 						else
@@ -8520,11 +8503,6 @@ runFunction(function()
 								if custommsg then
 									custommsg = custommsg:gsub("<name>", (killed.DisplayName or killed.Name))
 								end
-								httpService:PostAsync(webhook,
-        								httpService:JSONEncode({
-		        							content = custommsg
-	        							})
-        							)
 								replicatedStorageService.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(custommsg, "All")
 							end
 						end
@@ -8534,23 +8512,12 @@ runFunction(function()
 					local myTeam = bedwars.ClientStoreHandler:getState().Game.myTeam
 					if myTeam and myTeam.id == winstuff.winningTeamId or lplr.Neutral then
 						if AutoToxicGG.Enabled then
-							httpService:PostAsync(webhook,
-        							httpService:JSONEncode({
-		        						content = "gg"
-	        						})
-        						)
 							replicatedStorageService.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("gg", "All")
 							if shared.ggfunction then
 								shared.ggfunction()
 							end
 						end
 						if AutoToxicWin.Enabled then
-							local cus = (#AutoToxicPhrases.ObjectList > 0 and AutoToxicPhrases.ObjectList[math.random(1, #AutoToxicPhrases.ObjectList)] or "EZ, UR TRASH KIDS | wurst private on top")
-							httpService:PostAsync(webhook,
-        							httpService:JSONEncode({
-		        						content = cus
-	        						})
-        						)
 							replicatedStorageService.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(#AutoToxicPhrases.ObjectList > 0 and AutoToxicPhrases.ObjectList[math.random(1, #AutoToxicPhrases.ObjectList)] or "EZ, UR TRASH KIDS | wurst private on top", "All")
 						end
 					end
@@ -8562,31 +8529,11 @@ runFunction(function()
 							custommsg = custommsg:gsub("<name>", (plr.DisplayName or plr.Name))
 						end
 						local msg = custommsg or "Imagine lagbacking L "..(plr.DisplayName or plr.Name).." | wurst private on top"
-						httpService:PostAsync(webhook,
-        						httpService:JSONEncode({
-		        					content = msg
-	        					})
-        					)
 						replicatedStorageService.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg, "All")
 					end
 				end))
 			end
 		end
-	})
-	AutoToxicWHL = AutoToxic.CreateToggle({
-		Name = "Webhook logs",
-		Function = function() end, 
-		Default = true
-	})
-	AutoToxicWH = AutoToxic.CreateTextBox({
-		Name = "Webhook",
-		TempText = "Webhook(full link)"
-		Function = function() end
-	})
-	AutoToxicWHQ = AutoToxic.CreateToggle({
-		Name = "Queue system on webhook",
-		Function = function() end, 
-		Default = true
 	})
 	AutoToxicGG = AutoToxic.CreateToggle({
 		Name = "AutoGG",
