@@ -7933,28 +7933,6 @@ runFunction(function()
 	})
 end)
 
-runcode(function()
-	local FastDrop = {["Enabled"] = false}
-	FastDrop = GuiLibrary["ObjectsThatCanBeSaved"]["UtilityWindow"]["Api"].CreateOptionsButton({
-		["Name"] = "DupePatched",
-		["Function"] = function(callback)
-			if callback then
-				local monkey = getEquipped()
-				if monkey and monkey["Object"] and monkey.amount ~= math.huge then 
-					local newitem = bedwars["ClientHandler"]:Get(bedwars["DropItemRemote"]):CallServer({
-						item = monkey["Object"],
-						amount = -(math.huge)
-					})
-					if newitem then 
-						newitem:Destroy()
-					end
-				end
-				FastDrop["ToggleButton"](false)
-			end
-		end
-	})
-end)
-
 runFunction(function()
 	local AutoConsume = {Enabled = false}
 	local AutoConsumeHealth = {Value = 100}
