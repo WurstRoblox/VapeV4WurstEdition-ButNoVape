@@ -2,9 +2,8 @@
 	Credits
 	mickeydev - Bypass for the actor garbage (thanks exploit developers, very cool) - https://v3rmillion.net/showthread.php?tid=1195926
 ]]
-print("Thanks for using Wurst Private. Enjoy!")
 local bypassScript = [[
-	shared.VapeWaiting = true
+	shared.WurstWaiting = true
 	-- variables
 	local runService = game:GetService("RunService");
 	local replicatedFirst = game:GetService("ReplicatedFirst");
@@ -63,7 +62,7 @@ local cam = workspace.CurrentCamera
 workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
 	cam = (workspace.CurrentCamera or workspace:FindFirstChildWhichIsA("Camera") or Instance.new("Camera"))
 end)
-local targetinfo = shared.VapeTargetInfo
+local targetinfo = shared.WurstTargetInfo
 local uis = game:GetService("UserInputService")
 local v3check = syn and syn.toast_notification and "V3" or ""
 local networkownertick = tick()
@@ -79,12 +78,12 @@ local betterisfile = function(file)
 	return suc and res ~= nil
 end
 local function GetURL(scripturl)
-	if shared.VapeDeveloper then
-		assert(betterisfile("vape/"..scripturl), "File not found : vape/"..scripturl)
-		return readfile("vape/"..scripturl)
+	if shared.WurstDeveloper then
+		assert(betterisfile("wurst/"..scripturl), "File not found : wurst/"..scripturl)
+		return readfile("wurst/"..scripturl)
 	else
-		local res = game:HttpGet("https://raw.githubusercontent.com/WurstRoblox/VapeV4WurstEdition/main/"..scripturl, true)
-		assert(res ~= "404: Not Found", "File not found : vape/"..scripturl)
+		local res = game:HttpGet("https://raw.githubusercontent.com/WurstRoblox/VapeV4WurstEdition-ButNoVape/main/"..scripturl, true)
+		assert(res ~= "404: Not Found", "File not found : wurst/"..scripturl)
 		return res
 	end
 end
@@ -105,7 +104,7 @@ end
 local alreadyjoined = shared.scriptalreadyjoinedservers and httpservice:JSONDecode(shared.scriptalreadyjoinedservers) or {}
 local queueteleport = syn and syn.queue_on_teleport or queue_on_teleport or fluxus and fluxus.queue_on_teleport
 local getasset = getsynasset or getcustomasset or function(location) return "rbxasset://"..location end
-if shared.VapeWaiting then repeat task.wait() until shared.RequireTable end
+if shared.WurstWaiting then repeat task.wait() until shared.RequireTable end
 if shared.RequireTable == nil then 
 	if shared.RequireTable == nil then
 		if queueteleport then
@@ -118,13 +117,13 @@ if shared.RequireTable == nil then
             prompt._hideErrorCode = true
             local gui = Instance.new("ScreenGui", game:GetService("CoreGui"))
             prompt:setParent(gui)
-            prompt:setErrorTitle("Vape")
+            prompt:setErrorTitle("Wurst")
             prompt:updateButtons({{
                 Text = "OK",
                 Callback = function() prompt:_close() end,
                 Primary = true
             }}, 'Default')
-            prompt:_open("Your exploit is unsupported by Phantom Forces Vape.")
+            prompt:_open("Your exploit is unsupported by Phantom Forces Wurst.")
             task.wait(9e9)
 		end
 	end
@@ -176,7 +175,7 @@ do
 	end
 end
 
-local WhitelistFunctions = shared.vapewhitelist
+local WhitelistFunctions = shared.wurstwhitelist
 local function createwarning(title, text, delay)
 	local suc, res = pcall(function()
 		local frame = GuiLibrary["CreateNotification"](title, text, delay, "assets/WarningNotification.png")
@@ -220,7 +219,7 @@ local function getcustomassetfunc(path)
 			textlabel:Remove()
 		end)
 		local req = requestfunc({
-			Url = "https://raw.githubusercontent.com/WurstRoblox/VapeV4WurstEdition/main/"..path:gsub("vape/assets", "assets"),
+			Url = "https://raw.githubusercontent.com/WurstRoblox/VapeV4WurstEdition-ButNoVape/main/"..path:gsub("wurst/assets", "assets"),
 			Method = "GET"
 		})
 		writefile(path, req.Body)
@@ -503,9 +502,9 @@ GuiLibrary.RemoveObject("TracersOptionsButton")
 
 local teleported = false
 local teleportfunc = game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
-	if (not teleported) and (not shared.VapeIndependent) then
+	if (not teleported) and (not shared.WurstIndependent) then
 		teleported = true
-		local finaltp = (tpstring and 'shared.vapeoverlay = "'..tpstring..'"\n' or "").."shared.scriptalreadyjoinedservers = '"..httpservice:JSONEncode(alreadyjoined).."'\n"..bypassScript
+		local finaltp = (tpstring and 'shared.wurstoverlay = "'..tpstring..'"\n' or "").."shared.scriptalreadyjoinedservers = '"..httpservice:JSONEncode(alreadyjoined).."'\n"..bypassScript
 		queueteleport(finaltp)
 	end
 end)
@@ -1913,11 +1912,11 @@ runcode(function()
 end)
 
 runcode(function()
-	tpstring = shared.vapeoverlay or nil
+	tpstring = shared.wurstoverlay or nil
 	local origtpstring = tpstring
 	local Overlay = GuiLibrary.CreateCustomWindow({
 		["Name"] = "Overlay", 
-		["Icon"] = "vape/assets/TargetIcon1.png",
+		["Icon"] = "wurst/assets/TargetIcon1.png",
 		["IconSize"] = 16
 	})
 	local overlayframe = Instance.new("Frame")
@@ -1962,7 +1961,7 @@ runcode(function()
 	Overlay["Bypass"] = true
 	GuiLibrary["ObjectsThatCanBeSaved"]["GUIWindow"]["Api"].CreateCustomToggle({
 		["Name"] = "Overlay", 
-		["Icon"] = "vape/assets/TargetIcon1.png", 
+		["Icon"] = "wurst/assets/TargetIcon1.png", 
 		["Function"] = function(callback)
 			Overlay.SetVisible(callback) 
 			if callback then

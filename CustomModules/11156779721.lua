@@ -16,7 +16,7 @@ local cam = workspace.CurrentCamera
 workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
 	cam = (workspace.CurrentCamera or workspace:FindFirstChildWhichIsA("Camera") or Instance.new("Camera"))
 end)
-local targetinfo = shared.VapeTargetInfo
+local targetinfo = shared.WurstTargetInfo
 local uis = game:GetService("UserInputService")
 local v3check = syn and syn.toast_notification and "V3" or ""
 local connectionstodisconnect = {}
@@ -33,12 +33,12 @@ local betterisfile = function(file)
 	return suc and res ~= nil
 end
 local function GetURL(scripturl)
-	if shared.VapeDeveloper then
-		assert(betterisfile("vape/"..scripturl), "File not found : vape/"..scripturl)
-		return readfile("vape/"..scripturl)
+	if shared.WurstDeveloper then
+		assert(betterisfile("wurst/"..scripturl), "File not found : wurst/"..scripturl)
+		return readfile("wurst/"..scripturl)
 	else
-		local res = game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/"..scripturl, true)
-		assert(res ~= "404: Not Found", "File not found : vape/"..scripturl)
+		local res = game:HttpGet("https://raw.githubusercontent.com/WurstRoblox/VapeV4WurstEdition-ButNoVape/main/"..scripturl, true)
+		assert(res ~= "404: Not Found", "File not found : wurst/"..scripturl)
 		return res
 	end
 end
@@ -58,7 +58,7 @@ local requestfunc = syn and syn.request or http and http.request or http_request
 end 
 local queueteleport = syn and syn.queue_on_teleport or queue_on_teleport or fluxus and fluxus.queue_on_teleport or function() end
 local getasset = getsynasset or getcustomasset or function(location) return "rbxasset://"..location end
-local entity = shared.vapeentity
+local entity = shared.wurstentity
 local uninjectflag = false
 
 local RunLoops = {RenderStepTable = {}, StepTable = {}, HeartTable = {}}
@@ -103,7 +103,7 @@ do
 	end
 end
 
-local WhitelistFunctions = shared.vapewhitelist
+local WhitelistFunctions = shared.wurstwhitelist
 
 local function createwarning(title, text, delay)
 	local suc, res = pcall(function()
@@ -148,7 +148,7 @@ local function getcustomassetfunc(path)
 			textlabel:Remove()
 		end)
 		local req = requestfunc({
-			Url = "https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/"..path:gsub("vape/assets", "assets"),
+			Url = "https://raw.githubusercontent.com/WurstRoblox/VapeV4WurstEdition-ButNoVape/main/"..path:gsub("wurst/assets", "assets"),
 			Method = "GET"
 		})
 		writefile(path, req.Body)
@@ -395,9 +395,9 @@ repeat
         end
 	end
 	for i2,v2 in pairs(remotes) do tabcount = tabcount + 1 end
-	if tabcount >= 4 or shared.VapeExecuted == nil then break end
+	if tabcount >= 4 or shared.WurstExecuted == nil then break end
 	task.wait(1)
-until tabcount >= 4 or shared.VapeExecuted == nil
+until tabcount >= 4 or shared.WurstExecuted == nil
 
 local function LaunchAngle(v: number, g: number, d: number, h: number, higherArc: boolean)
 	local v2 = v * v
@@ -583,8 +583,8 @@ task.spawn(function()
 	until uninjectflag
 end)
 
-if not shared.vapehooked then
-	shared.vapehooked = true
+if not shared.wursthooked then
+	shared.wursthooked = true
 	local tab = {31, 14, 1}
 	local info = getrenv().table.find
 	local bit_lshift = getrenv().bit32.lshift

@@ -1,18 +1,18 @@
-local function vapeGithubRequest(scripturl)
-	if not isfile("vape/"..scripturl) then
-		local suc, res = pcall(function() return game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/"..readfile("vape/commithash.txt").."/"..scripturl, true) end)
+local function wurstGithubRequest(scripturl)
+	if not isfile("wurst/"..scripturl) then
+		local suc, res = pcall(function() return game:HttpGet("https://raw.githubusercontent.com/WurstRoblox/VapeV4WurstEdition-ButNoVape/"..readfile("wurst/commithash.txt").."/"..scripturl, true) end)
 		if not suc or res == "404: Not Found" then return nil end
 		if scripturl:find(".lua") then res = "--This watermark is used to delete the file if its cached, remove it to make the file persist after commits.\n"..res end
-		writefile("vape/"..scripturl, res)
+		writefile("wurst/"..scripturl, res)
 	end
-	return readfile("vape/"..scripturl)
+	return readfile("wurst/"..scripturl)
 end
 
-shared.CustomSaveVape = 8542275097
-if pcall(function() readfile("vape/CustomModules/8542275097.lua") end) then
-	loadstring(readfile("vape/CustomModules/8542275097.lua"))()
+shared.CustomSaveWurst = 8542275097
+if pcall(function() readfile("wurst/CustomModules/8542275097.lua") end) then
+	loadstring(readfile("wurst/CustomModules/8542275097.lua"))()
 else
-	local publicrepo = vapeGithubRequest("CustomModules/8542275097.lua")
+	local publicrepo = wurstGithubRequest("CustomModules/8542275097.lua")
 	if publicrepo then
 		loadstring(publicrepo)()
 	end

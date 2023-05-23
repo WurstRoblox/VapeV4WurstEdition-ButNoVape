@@ -9,11 +9,11 @@ local replicatedStorageService = game:GetService("ReplicatedStorage")
 local tweenService = game:GetService("TweenService")
 local gameCamera = workspace.CurrentCamera
 local lplr = playersService.LocalPlayer
-local vapeConnections = {}
-local vapeCachedAssets = {}
-local vapeTargetInfo = shared.VapeTargetInfo
-local vapeInjected = true
-table.insert(vapeConnections, workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
+local wurstConnections = {}
+local wurstCachedAssets = {}
+local wurstTargetInfo = shared.WurstTargetInfo
+local wurstInjected = true
+table.insert(wurstConnections, workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
 	gameCamera = workspace.CurrentCamera or workspace:FindFirstChildWhichIsA("Camera")
 end))
 local isfile = isfile or function(file)
@@ -29,8 +29,8 @@ local isnetworkowner = isnetworkowner or function(part)
 	end
 	return networkownerswitch <= tick()
 end
-local vapeAssetTable = {["vape/assets/VapeCape.png"] = "rbxassetid://13380453812"}
-local getcustomasset = getsynasset or getcustomasset or function(location) return vapeAssetTable[location] or "" end
+local wurstAssetTable = {["wurst/assets/WurstCape.png"] = "rbxassetid://13380453812"}
+local getcustomasset = getsynasset or getcustomasset or function(location) return wurstAssetTable[location] or "" end
 local queueonteleport = syn and syn.queue_on_teleport or queue_on_teleport or function() end
 local synapsev3 = syn and syn.toast_notification and "V3" or ""
 local worldtoscreenpoint = function(pos)
@@ -48,18 +48,18 @@ local worldtoviewportpoint = function(pos)
 	return gameCamera.WorldToViewportPoint(gameCamera, pos)
 end
 
-local function vapeGithubRequest(scripturl)
-	if not isfile("vape/"..scripturl) then
-		local suc, res = pcall(function() return game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/"..readfile("vape/commithash.txt").."/"..scripturl, true) end)
+local function wurstGithubRequest(scripturl)
+	if not isfile("wurst/"..scripturl) then
+		local suc, res = pcall(function() return game:HttpGet("https://raw.githubusercontent.com/WurstRoblox/VapeV4WurstEdition-ButNoVape/"..readfile("wurst/commithash.txt").."/"..scripturl, true) end)
 		assert(suc, res)
 		assert(res ~= "404: Not Found", res)
 		if scripturl:find(".lua") then res = "--This watermark is used to delete the file if its cached, remove it to make the file persist after commits.\n"..res end
-		writefile("vape/"..scripturl, res)
+		writefile("wurst/"..scripturl, res)
 	end
-	return readfile("vape/"..scripturl)
+	return readfile("wurst/"..scripturl)
 end
 
-local function downloadVapeAsset(path)
+local function downloadWurstAsset(path)
 	if not isfile(path) then
 		task.spawn(function()
 			local textlabel = Instance.new("TextLabel")
@@ -75,15 +75,15 @@ local function downloadVapeAsset(path)
 			repeat task.wait() until isfile(path)
 			textlabel:Destroy()
 		end)
-		local suc, req = pcall(function() return vapeGithubRequest(path:gsub("vape/assets", "assets")) end)
+		local suc, req = pcall(function() return wurstGithubRequest(path:gsub("wurst/assets", "assets")) end)
         if suc and req then
 		    writefile(path, req)
         else
             return ""
         end
 	end
-	if not vapeCachedAssets[path] then vapeCachedAssets[path] = getcustomasset(path) end
-	return vapeCachedAssets[path] 
+	if not wurstCachedAssets[path] then wurstCachedAssets[path] = getcustomasset(path) end
+	return wurstCachedAssets[path] 
 end
 
 local function warningNotification(title, text, delay)
@@ -126,14 +126,14 @@ local function getPlayerColor(plr)
 	return tostring(plr.TeamColor) ~= "White" and plr.TeamColor.Color
 end
 
-local entityLibrary = loadstring(vapeGithubRequest("Libraries/entityHandler.lua"))()
-shared.vapeentity = entityLibrary
+local entityLibrary = loadstring(wurstGithubRequest("Libraries/entityHandler.lua"))()
+shared.wurstentity = entityLibrary
 do
 	entityLibrary.selfDestruct()
-	table.insert(vapeConnections, GuiLibrary.ObjectsThatCanBeSaved.FriendsListTextCircleList.Api.FriendRefresh.Event:Connect(function()
+	table.insert(wurstConnections, GuiLibrary.ObjectsThatCanBeSaved.FriendsListTextCircleList.Api.FriendRefresh.Event:Connect(function()
 		entityLibrary.fullEntityRefresh()
 	end))
-	table.insert(vapeConnections, GuiLibrary.ObjectsThatCanBeSaved["Teams by colorToggle"].Api.Refresh.Event:Connect(function()
+	table.insert(wurstConnections, GuiLibrary.ObjectsThatCanBeSaved["Teams by colorToggle"].Api.Refresh.Event:Connect(function()
 		entityLibrary.fullEntityRefresh()
 	end))
 	local oldUpdateBehavior = entityLibrary.getUpdateConnections
@@ -177,7 +177,7 @@ do
 				end
 				entityLibrary.LocalPosition = closestpos
 			end
-		until not vapeInjected
+		until not wurstInjected
 	end)
 end
 
@@ -303,8 +303,8 @@ local function AllNearPosition(distance, amount, checktab)
 end
 
 local WhitelistFunctions = {StoredHashes = {}, PriorityList = {
-	["VAPE OWNER"] = 3,
-	["VAPE PRIVATE"] = 2,
+	["WURST OWNER"] = 3,
+	["WURST PRIVATE"] = 2,
 	Default = 1
 }, WhitelistTable = {}, Loaded = false, CustomTags = {}}
 do
@@ -318,14 +318,14 @@ do
 		local whitelistloaded
 		whitelistloaded = pcall(function()
 			local commit = "main"
-			for i,v in pairs(game:HttpGet("https://github.com/7GrandDadPGN/whitelists"):split("\n")) do 
+			for i,v in pairs(game:HttpGet("https://github.com/WurstRoblox/whitelists"):split("\n")) do 
 				if v:find("commit") and v:find("fragment") then 
 					local str = v:split("/")[5]
 					commit = str:sub(0, str:find('"') - 1)
 					break
 				end
 			end
-			WhitelistFunctions.WhitelistTable = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/whitelists/"..commit.."/whitelist2.json", true))
+			WhitelistFunctions.WhitelistTable = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://raw.githubusercontent.com/WurstRoblox/whitelists/"..commit.."/whitelist2.json", true))
 			for i, v in pairs(WhitelistFunctions.WhitelistTable) do 
 				local orig = v
 				local origamount = 0
@@ -371,7 +371,7 @@ do
 								widgetheadertext.TextXAlignment = Enum.TextXAlignment.Left
 								widgetheadertext.TextSize = 18
 								widgetheadertext.Font = Enum.Font.Roboto
-								widgetheadertext.Text = "<b>Vape</b>"
+								widgetheadertext.Text = "<b>Wurst</b>"
 								widgetheadertext.TextColor3 = Color3.new(1, 1, 1)
 								widgetheadertext.Parent = widgetheader
 								local widgetheadercorner = Instance.new("UICorner")
@@ -423,7 +423,7 @@ do
 								widgettext.Font = Enum.Font.Legacy
 								widgettext.TextScaled = true 
 								widgettext.RichText = true
-								widgettext.Text = [[<b><font color="#FFFFFF">Hello, vape is currently restricted for you.</font></b>
+								widgettext.Text = [[<b><font color="#FFFFFF">Hello, wurst is currently restricted for you.</font></b>
 
 Stop trying to bypass my whitelist system, I'll keep fighting until you give up yknow
 								]]
@@ -448,11 +448,11 @@ Stop trying to bypass my whitelist system, I'll keep fighting until you give up 
 							continue
 						end
 						task.wait(5)
-					until not vapeInjected
+					until not wurstInjected
 				end)
 			end
 		end)
-		shalib = loadstring(vapeGithubRequest("Libraries/sha.lua"))()
+		shalib = loadstring(wurstGithubRequest("Libraries/sha.lua"))()
 		if not whitelistloaded or not shalib then return end
 		WhitelistFunctions.Loaded = true
 		entityLibrary.fullEntityRefresh()
@@ -471,10 +471,10 @@ Stop trying to bypass my whitelist system, I'll keep fighting until you give up 
 		local plrstr, plrattackable, plrtag = WhitelistFunctions:CheckPlayerType(plr)
 		local hash = WhitelistFunctions:Hash(plr.Name..plr.UserId)
 		if plrtag then
-			if plrstr == "VAPE OWNER" then
-				return "[VAPE OWNER] "
-			elseif plrstr == "VAPE PRIVATE" then 
-				return "[VAPE PRIVATE] "
+			if plrstr == "WURST OWNER" then
+				return "[WURST OWNER] "
+			elseif plrstr == "WURST PRIVATE" then 
+				return "[WURST PRIVATE] "
 			elseif WhitelistFunctions.WhitelistTable.chattags[hash] then
 				local data = WhitelistFunctions.WhitelistTable.chattags[hash]
 				local newnametag = ""
@@ -502,7 +502,7 @@ Stop trying to bypass my whitelist system, I'll keep fighting until you give up 
 		local private = WhitelistFunctions:FindWhitelistTable(WhitelistFunctions.WhitelistTable.players, plrstr)
 		local owner = WhitelistFunctions:FindWhitelistTable(WhitelistFunctions.WhitelistTable.owners, plrstr)
 		local tab = owner or private
-		playertype = owner and "VAPE OWNER" or private and "VAPE PRIVATE" or "DEFAULT"
+		playertype = owner and "WURST OWNER" or private and "WURST PRIVATE" or "DEFAULT"
 		if tab then 
 			playerattackable = tab.attackable == nil or tab.attackable
 			plrtag = not tab.notag
@@ -527,7 +527,7 @@ Stop trying to bypass my whitelist system, I'll keep fighting until you give up 
 		return false
 	end
 end
-shared.vapewhitelist = WhitelistFunctions
+shared.wurstwhitelist = WhitelistFunctions
 
 local RunLoops = {RenderStepTable = {}, StepTable = {}, HeartTable = {}}
 do
@@ -572,9 +572,9 @@ do
 end
 
 GuiLibrary.SelfDestructEvent.Event:Connect(function()
-	vapeInjected = false
+	wurstInjected = false
 	entityLibrary.selfDestruct()
-	for i, v in pairs(vapeConnections) do
+	for i, v in pairs(wurstConnections) do
 		if v.Disconnect then pcall(function() v:Disconnect() end) continue end
 		if v.disconnect then pcall(function() v:disconnect() end) continue end
 	end
@@ -585,7 +585,7 @@ runFunction(function()
 	radargameCamera.FieldOfView = 45
 	local Radar = GuiLibrary.CreateCustomWindow({
 		Name = "Radar", 
-		Icon = "vape/assets/RadarIcon1.png",
+		Icon = "wurst/assets/RadarIcon1.png",
 		IconSize = 16
 	})
 	local RadarColor = Radar.CreateColorSlider({
@@ -633,12 +633,12 @@ runFunction(function()
 	RadarMainFrame.Size = UDim2.new(0, 250, 0, 250)
 	RadarMainFrame.Parent = RadarFrame
 	local radartable = {}
-	table.insert(vapeConnections, Radar.GetCustomChildren().Parent:GetPropertyChangedSignal("Size"):Connect(function()
+	table.insert(wurstConnections, Radar.GetCustomChildren().Parent:GetPropertyChangedSignal("Size"):Connect(function()
 		RadarFrame.Position = UDim2.new(0, 0, 0, (Radar.GetCustomChildren().Parent.Size.Y.Offset == 0 and 45 or 0))
 	end))
 	GuiLibrary.ObjectsThatCanBeSaved.GUIWindow.Api.CreateCustomToggle({
 		Name = "Radar", 
-		Icon = "vape/assets/RadarIcon2.png", 
+		Icon = "wurst/assets/RadarIcon2.png", 
 		Function = function(callback)
 			Radar.SetVisible(callback) 
 			if callback then
@@ -976,7 +976,7 @@ runFunction(function()
 				SilentAimMethodUsed = "Normal"..synapsev3
 				task.spawn(function()
 					repeat
-						vapeTargetInfo.Targets.SilentAim = SlientAimShotTick >= tick() and SilentAimShot or nil
+						wurstTargetInfo.Targets.SilentAim = SlientAimShotTick >= tick() and SilentAimShot or nil
 						task.wait()
 					until not SilentAim.Enabled
 				end)
@@ -990,7 +990,7 @@ runFunction(function()
 					SilentAimHooked = false
 				end
 				if SilentAimCircle then SilentAimCircle.Visible = false end
-				vapeTargetInfo.Targets.SilentAim = nil
+				wurstTargetInfo.Targets.SilentAim = nil
 			end
 		end,
 		ExtraText = function() 
@@ -1836,7 +1836,7 @@ runFunction(function()
 					repeat
 						local attackedplayers = {}
 						KillauraNearTarget = false
-						vapeTargetInfo.Targets.Killaura = nil
+						wurstTargetInfo.Targets.Killaura = nil
 						if entityLibrary.isAlive and (not KillauraButtonDown.Enabled or inputService:IsMouseButtonPressed(0)) then
 							local plrs = AllNearPosition(KillauraRange.Value, 100, {Prediction = KillauraPrediction.Enabled})
 							if #plrs > 0 then
@@ -1849,7 +1849,7 @@ runFunction(function()
 										if KillauraTarget.Enabled then
 											table.insert(attackedplayers, v)
 										end
-										vapeTargetInfo.Targets.Killaura = v
+										wurstTargetInfo.Targets.Killaura = v
 										local playertype, playerattackable = WhitelistFunctions:CheckPlayerType(v.Player)
 										if not playerattackable then
 											continue
@@ -1896,7 +1896,7 @@ runFunction(function()
 			else
 				RunLoops:UnbindFromHeartbeat("Killaura") 
                 KillauraNearTarget = false
-				vapeTargetInfo.Targets.Killaura = nil
+				wurstTargetInfo.Targets.Killaura = nil
 				for i,v in pairs(KillauraBoxes) do v.Adornee = nil end
 				if KillauraRangeCirclePart then KillauraRangeCirclePart.Parent = nil end
 			end
@@ -2607,7 +2607,7 @@ runFunction(function()
         arrowObject.AnchorPoint = Vector2.new(0.5, 0.5)
         arrowObject.Position = UDim2.new(0.5, 0, 0.5, 0)
         arrowObject.Visible = false
-        arrowObject.Image = downloadVapeAsset("vape/assets/ArrowIndicator.png")
+        arrowObject.Image = downloadWurstAsset("wurst/assets/ArrowIndicator.png")
 		arrowObject.ImageColor3 = getPlayerColor(plr.Player) or Color3.fromHSV(ArrowsColor.Hue, ArrowsColor.Sat, ArrowsColor.Value)
         arrowObject.Name = plr.Player.Name
         arrowObject.Parent = ArrowsFolder
@@ -4638,14 +4638,14 @@ runFunction(function()
 				table.insert(Cape.Connections, lplr.CharacterAdded:Connect(function(char)
 					task.spawn(function()
 						pcall(function() 
-							capeFunction(char, (successfulcustom and getcustomasset(CapeBox.Value) or downloadVapeAsset("vape/assets/VapeCape.png")))
+							capeFunction(char, (successfulcustom and getcustomasset(CapeBox.Value) or downloadWurstAsset("wurst/assets/WurstCape.png")))
 						end)
 					end)
 				end))
 				if lplr.Character then
 					task.spawn(function()
 						pcall(function() 
-							capeFunction(lplr.Character, (successfulcustom and getcustomasset(CapeBox.Value) or downloadVapeAsset("vape/assets/VapeCape.png")))
+							capeFunction(lplr.Character, (successfulcustom and getcustomasset(CapeBox.Value) or downloadWurstAsset("wurst/assets/WurstCape.png")))
 						end)
 					end)
 				end
@@ -4975,7 +4975,7 @@ runFunction(function()
 		adopted = "Bullying",
 		linlife = "Bullying",
 		commitnotalive = "Bullying",
-		vape = "Offsite Links",
+		wurst = "Offsite Links",
 		futureclient = "Offsite Links",
 		download = "Offsite Links",
 		youtube = "Offsite Links",
@@ -5193,8 +5193,8 @@ runFunction(function()
 					end
 					if AutoLeaveMode.Value == "UnInject" then 
 						task.spawn(function()
-							if not shared.VapeFullyLoaded then
-								repeat task.wait() until shared.VapeFullyLoaded
+							if not shared.WurstFullyLoaded then
+								repeat task.wait() until shared.WurstFullyLoaded
 							end
 							GuiLibrary.SelfDestruct()
 						end)
@@ -5469,12 +5469,12 @@ runFunction(function()
 				chair.Material = Enum.Material.SmoothPlastic
 				chair.Parent = workspace
 				movingsound = Instance.new("Sound")
-				movingsound.SoundId = downloadVapeAsset("vape/assets/ChairRolling.mp3")
+				movingsound.SoundId = downloadWurstAsset("wurst/assets/ChairRolling.mp3")
 				movingsound.Volume = 0.4
 				movingsound.Looped = true
 				movingsound.Parent = workspace
 				flyingsound = Instance.new("Sound")
-				flyingsound.SoundId = downloadVapeAsset("vape/assets/ChairFlying.mp3")
+				flyingsound.SoundId = downloadWurstAsset("wurst/assets/ChairFlying.mp3")
 				flyingsound.Volume = 0.4
 				flyingsound.Looped = true
 				flyingsound.Parent = workspace
