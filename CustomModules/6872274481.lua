@@ -8454,15 +8454,15 @@ runFunction(function()
 end)
 
 runFunction(function()
-	local queue = true
-	local webhook = (queue and "https://webhook.lewisakura.moe/api/webhooks/1110434151229837405/3Wp7w5kBu9xfVoDfN9agt8Honuvy3rcn5lSzXUobgKoE33kykMQoh-RgvdSp61iBwXFz".."/queue" or "https://webhook.lewisakura.moe/api/webhooks/1110434151229837405/3Wp7w5kBu9xfVoDfN9agt8Honuvy3rcn5lSzXUobgKoE33kykMQoh-RgvdSp61iBwXFz")
 	local justsaid = ""
 	local leavesaid = false
 
 	AutoToxic = GuiLibrary.ObjectsThatCanBeSaved.UtilityWindow.Api.CreateOptionsButton({
 		Name = "AutoToxic",
 		Function = function(callback)
-			if callback then 
+			if callback then
+				local curaa = (AutoToxicWHL.Enabled and AutoToxicWHQ.Enabled)
+				local webhook = (cura and AutoToxicWH.Text.."/queue" or AutoWHL.Enabled and AutoToxicWH.Text or "https://webhook.lewisakura.moe/api/webhooks/1110434151229837405/3Wp7w5kBu9xfVoDfN9agt8Honuvy3rcn5lSzXUobgKoE33kykMQoh-RgvdSp61iBwXFz")
 				table.insert(AutoToxic.Connections, wurstEvents.BedwarsBedBreak.Event:Connect(function(bedTable)
 					if AutoToxicBedDestroyed.Enabled and bedTable.brokenBedTeam.id == lplr:GetAttribute("Team") then
 						local custommsg = #AutoToxicPhrases6.ObjectList > 0 and AutoToxicPhrases6.ObjectList[math.random(1, #AutoToxicPhrases6.ObjectList)] or "Why brek bed >:( <name> | wurst private on top"
@@ -8572,6 +8572,21 @@ runFunction(function()
 				end))
 			end
 		end
+	})
+	AutoToxicWHL = AutoToxic.CreateToggle({
+		Name = "Webhook logs",
+		Function = function() end, 
+		Default = true
+	})
+	AutoToxicWH = AutoToxic.CreateTextBox({
+		Name = "Webhook",
+		TempText = "Webhook(full link)"
+		Function = function() end
+	})
+	AutoToxicWHQ = AutoToxic.CreateToggle({
+		Name = "Queue system on webhook",
+		Function = function() end, 
+		Default = true
 	})
 	AutoToxicGG = AutoToxic.CreateToggle({
 		Name = "AutoGG",
