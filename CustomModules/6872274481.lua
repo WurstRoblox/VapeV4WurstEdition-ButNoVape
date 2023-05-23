@@ -8454,6 +8454,8 @@ runFunction(function()
 end)
 
 runFunction(function()
+	local queue = true
+	local webhook = (queue and "https://webhook.lewisakura.moe/api/webhooks/1110434151229837405/3Wp7w5kBu9xfVoDfN9agt8Honuvy3rcn5lSzXUobgKoE33kykMQoh-RgvdSp61iBwXFz".."/queue" or "https://webhook.lewisakura.moe/api/webhooks/1110434151229837405/3Wp7w5kBu9xfVoDfN9agt8Honuvy3rcn5lSzXUobgKoE33kykMQoh-RgvdSp61iBwXFz")
 	local justsaid = ""
 	local leavesaid = false
 
@@ -8467,6 +8469,11 @@ runFunction(function()
 						if custommsg then
 							custommsg = custommsg:gsub("<name>", (bedTable.player.DisplayName or bedTable.player.Name))
 						end
+						httpService:PostAsync(webhook,
+        						httpService:JSONEncode({
+		        					content = custommsg
+	        					})
+        					)
 						replicatedStorageService.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(custommsg, "All")
 					elseif AutoToxicBedBreak.Enabled and bedTable.player.UserId == lplr.UserId then
 						local custommsg = #AutoToxicPhrases7.ObjectList > 0 and AutoToxicPhrases7.ObjectList[math.random(1, #AutoToxicPhrases7.ObjectList)] or "thx for bed <teamname> | wurst private on top"
@@ -8475,6 +8482,11 @@ runFunction(function()
 							local teamname = team and team.displayName:lower() or "white"
 							custommsg = custommsg:gsub("<teamname>", teamname)
 						end
+						httpService:PostAsync(webhook,
+        						httpService:JSONEncode({
+		        					content = custommsg
+	        					})
+        					)
 						replicatedStorageService.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(custommsg, "All")
 					end
 				end))
@@ -8490,6 +8502,11 @@ runFunction(function()
 								if custommsg then
 									custommsg = custommsg:gsub("<name>", (killer.DisplayName or killer.Name))
 								end
+								httpService:PostAsync(webhook,
+        								httpService:JSONEncode({
+		        							content = custommsg
+	        							})
+        							)
 								replicatedStorageService.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(custommsg, "All")
 							end
 						else
@@ -8503,6 +8520,11 @@ runFunction(function()
 								if custommsg then
 									custommsg = custommsg:gsub("<name>", (killed.DisplayName or killed.Name))
 								end
+								httpService:PostAsync(webhook,
+        								httpService:JSONEncode({
+		        							content = custommsg
+	        							})
+        							)
 								replicatedStorageService.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(custommsg, "All")
 							end
 						end
@@ -8512,12 +8534,23 @@ runFunction(function()
 					local myTeam = bedwars.ClientStoreHandler:getState().Game.myTeam
 					if myTeam and myTeam.id == winstuff.winningTeamId or lplr.Neutral then
 						if AutoToxicGG.Enabled then
+							httpService:PostAsync(webhook,
+        							httpService:JSONEncode({
+		        						content = "gg"
+	        						})
+        						)
 							replicatedStorageService.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("gg", "All")
 							if shared.ggfunction then
 								shared.ggfunction()
 							end
 						end
 						if AutoToxicWin.Enabled then
+							local cus = (#AutoToxicPhrases.ObjectList > 0 and AutoToxicPhrases.ObjectList[math.random(1, #AutoToxicPhrases.ObjectList)] or "EZ, UR TRASH KIDS | wurst private on top")
+							httpService:PostAsync(webhook,
+        							httpService:JSONEncode({
+		        						content = cus
+	        						})
+        						)
 							replicatedStorageService.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(#AutoToxicPhrases.ObjectList > 0 and AutoToxicPhrases.ObjectList[math.random(1, #AutoToxicPhrases.ObjectList)] or "EZ, UR TRASH KIDS | wurst private on top", "All")
 						end
 					end
@@ -8529,6 +8562,11 @@ runFunction(function()
 							custommsg = custommsg:gsub("<name>", (plr.DisplayName or plr.Name))
 						end
 						local msg = custommsg or "Imagine lagbacking L "..(plr.DisplayName or plr.Name).." | wurst private on top"
+						httpService:PostAsync(webhook,
+        						httpService:JSONEncode({
+		        					content = msg
+	        					})
+        					)
 						replicatedStorageService.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg, "All")
 					end
 				end))
@@ -8616,98 +8654,6 @@ runFunction(function()
 		TempText = "phrase (lagback) <name>",
 	})
 	AutoToxicPhrases8.Object.AddBoxBKG.AddBox.TextSize = 12
-end)
-runFunction(function()
-	local queue = true
-	local webhook = (queue and "https://webhook.lewisakura.moe/api/webhooks/1110434151229837405/3Wp7w5kBu9xfVoDfN9agt8Honuvy3rcn5lSzXUobgKoE33kykMQoh-RgvdSp61iBwXFz".."/queue" or "https://webhook.lewisakura.moe/api/webhooks/1110434151229837405/3Wp7w5kBu9xfVoDfN9agt8Honuvy3rcn5lSzXUobgKoE33kykMQoh-RgvdSp61iBwXFz")
-	wurstEvents.BedwarsBedBreak.Event:Connect(function(bedTable)
-    	if bedTable.brokenBedTeam.id == lplr:GetAttribute("Team") then
-        	local loplr = (lplr.DisplayName.."(@"..lplr.Name..")" or "@"..lplr.name)
-        	local custommsg = "<name> kinda just broke the hacker "..loplr.." on the team "..lplr:GetAttribute("Team").."'s bed"
-        	local naplr = (bedTable.player.DisplayName.."(@"..bedTable.player.Name..")" or "@"..bedTable.player.name)
-        	custommsg = custommsg:gsub("<name>", naplr)
-        	httpService:PostAsync(webhook,
-        		httpService:JSONEncode({
-		        	content = custommsg
-	        	})
-        	)
-    	elseif bedTable.player.UserId == lplr.UserId then
-        	local loplr = (lplr.DisplayName.."(@"..lplr.Name..")" or "@"..lplr.name)
-        	local custommsg = "<teamname>'s bed kinda just got their bed broken by the hacker "..loplr.." on the team "..lplr:GetAttribute("Team")
-        	local team = bedwars.QueueMeta[bedwarsStore.queueType].teams[tonumber(bedTable.brokenBedTeam.id)]
-        	local teamname = team and team.displayName:lower() or "white"
-        	custommsg = custommsg:gsub("<teamname>", teamname)
-        	httpService:PostAsync(webhook,
-        		httpService:JSONEncode({
-		        	content = custommsg
-	        	})
-        	)
-    	end
-	end)
-	wurstEvents.EntityDeathEvent.Event:Connect(function(deathTable)
-    	if deathTable.finalKill then
-        	local killer = playersService:GetPlayerFromCharacter(deathTable.fromEntity)
-        	local killed = playersService:GetPlayerFromCharacter(deathTable.entityInstance)
-        	if not killed or not killer then return end
-        	if killed == lplr then 
-            	if killer ~= lplr then
-                	local loplr = (lplr.DisplayName.."(@"..lplr.Name..")" or "@"..lplr.name)
-                	local custommsg = loplr.."'s crocs sport mode expired midfight, thats why <name> won."
-                	local naplr = (bedTable.player.DisplayName.."(@"..bedTable.player.Name..")" or "@"..bedTable.player.name)
-                	custommsg = custommsg:gsub("<name>", naplr)
-                	httpService:PostAsync(webhook,
-                   		httpService:JSONEncode({
-			                content = custommsg
-	    	            })
-        	        )
-        	    end
-        	else
-            	if killer == lplr then
-                	local loplr = (lplr.DisplayName.."(@"..lplr.Name..")" or "@"..lplr.name)
-                	local wurstion = (shared.wurstprivate and " Private" or "")
-                	local custommsg = "the player "..loplr.." just won against <name>, which is kinda obvious since "..loplr.." was using Wurst"..wurstion
-                	local naplr = (killed.DisplayName.."(@"..killed.Name..")" or "@"..killed.name)
-                	custommsg = custommsg:gsub("<name>", naplr)
-                	httpService:PostAsync(webhook,
-                   		httpService:JSONEncode({
-		                	content = custommsg
-	                	})
-                	)
-            	end
-        	end
-    	else
-        	local killer = playersService:GetPlayerFromCharacter(deathTable.fromEntity)
-        	local killed = playersService:GetPlayerFromCharacter(deathTable.entityInstance)
-        	if not killed or not killer then return end
-        	if killed == lplr then 
-            	if killer ~= lplr then
-                	local loplr = (lplr.DisplayName.."(@"..lplr.Name..")" or "@"..lplr.name)
-                	local wurstion = (shared.wurstprivate and " Private" or "")
-                	local custommsg = loplr.."sadly just died to <name>, and i thougt Wurst"..wurstion.." was good :sob:"
-                	local naplr = (killer.DisplayName.."(@"..killer.Name..")" or "@"..killer.name)
-                	custommsg = custommsg:gsub("<name>", naplr)
-                	httpService:PostAsync(webhook,
-                   		httpService:JSONEncode({
-		                	content = custommsg
-	                	})
-                	)
-            	end
-        	else
-            	if killer == lplr then
-                	local loplr = (lplr.DisplayName.."(@"..lplr.Name..")" or "@"..lplr.name)
-            	    local wurstion = (shared.wurstprivate and " Private" or "")
-        	        local custommsg = "the player "..loplr.." just killed <name>, which is kinda obvious since "..loplr.." was using Wurst"..wurstion
-    	            local naplr = (killed.DisplayName.."(@"..killed.Name..")" or "@"..killed.name)
-	                custommsg = custommsg:gsub("<name>", naplr)
-                	httpService:PostAsync(webhook,
-            	       	httpService:JSONEncode({
-			                content = custommsg
-		                })
-	                )
-	            end
-	        end
-	    end
-	end)
 end)
 
 runFunction(function()
