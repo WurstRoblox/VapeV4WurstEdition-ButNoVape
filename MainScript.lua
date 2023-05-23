@@ -94,7 +94,7 @@ if inputService:GetPlatform() ~= Enum.Platform.Windows then
 	getcustomasset = nil
 end
 local getcustomasset = getsynasset or getcustomasset or function(location) return wurstAssetTable[location] or "" end
-local queueonteleport = syn and syn.queue_on_teleport or queue_on_teleport or function() end
+local queueonteleport = syn and syn.queue_on_teleport or queue_on_teleport or fluxus and fluxus.queue_on_teleport or function() end
 local delfile = delfile or function(file) writefile(file, "") end
 
 local function displayErrorPopup(text, funclist)
