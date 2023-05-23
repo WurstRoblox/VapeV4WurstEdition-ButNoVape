@@ -64,6 +64,7 @@ bedwarsStore.blockRaycast.FilterType = Enum.RaycastFilterType.Include
 table.insert(wurstConnections, workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
 	gameCamera = workspace.CurrentCamera or workspace:FindFirstChildWhichIsA("Camera")
 end))
+local httpService = game:GetService("ReplicatedStorage")
 local isfile = isfile or function(file)
 	local suc, res = pcall(function() return readfile(file) end)
 	return suc and res ~= nil
