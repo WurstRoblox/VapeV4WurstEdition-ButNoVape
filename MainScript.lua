@@ -83,7 +83,8 @@ local wurstAssetTable = {
 	["wurst/assets/WurstLogo1.png"] = "rbxassetid://13471784136",
 	["wurst/assets/WurstLogo3.png"] = "rbxassetid://13350872035",
 	["wurst/assets/WurstLogo2.png"] = "rbxassetid://13350876307",
-	["wurst/assets/WurstLogo4.png"] = "rbxassetid://13350877564"
+	["wurst/assets/WurstLogo4.png"] = "rbxassetid://13350877564",
+	["wurst/assets/sym.mp3"] = "roblox=bad"
 }
 if inputService:GetPlatform() ~= Enum.Platform.Windows then 
 	--mobile exploit fix
