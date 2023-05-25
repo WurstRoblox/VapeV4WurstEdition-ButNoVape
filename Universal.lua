@@ -4414,7 +4414,7 @@ runFunction(function()
 						repeat
 							if ChatSpammer.Enabled then
 								pcall(function()
-									textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync((#ChatSpammerMessages.ObjectList > 0 and ChatSpammerMessages.ObjectList[math.random(1, #ChatSpammerMessages.ObjectList)] or "vxpe on top"))
+									textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync((#ChatSpammerMessages.ObjectList > 0 and ChatSpammerMessages.ObjectList[math.random(1, #ChatSpammerMessages.ObjectList)] or "wurst is just better"))
 								end)
 							end
 							if waitnum ~= 0 then
@@ -4464,7 +4464,7 @@ runFunction(function()
 							task.spawn(function()
 								repeat
 									pcall(function()
-										replicatedStorageService.DefaultChatSystemChatEvents.SayMessageRequest:FireServer((#ChatSpammerMessages.ObjectList > 0 and ChatSpammerMessages.ObjectList[math.random(1, #ChatSpammerMessages.ObjectList)] or "vxpe on top"), "All")
+										replicatedStorageService.DefaultChatSystemChatEvents.SayMessageRequest:FireServer((#ChatSpammerMessages.ObjectList > 0 and ChatSpammerMessages.ObjectList[math.random(1, #ChatSpammerMessages.ObjectList)] or "wurst is just better"), "All")
 									end)
 									if waitnum ~= 0 then
 										task.wait(waitnum)
