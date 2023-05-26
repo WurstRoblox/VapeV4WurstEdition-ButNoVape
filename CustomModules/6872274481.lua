@@ -595,7 +595,7 @@ local function EntityNearPosition(distance, ignore, overridepos)
 						mag = (overridepos - v2.PrimaryPart.Position).magnitude
 					end
 					if mag <= closestMagnitude then
-						closestEntity, closestMagnitude = {Player = {Name = v.Name, UserId = (v.Name == "Duck" and 2020831224 or 1443379645)}, Character = v, RootPart = v.PrimaryPart, JumpTick = tick() + 5, Jumping = false, Humanoid = {HipHeight = 2}}, mag
+						closestEntity, closestMagnitude = {Player = {Name = v.Name, UserId = (v.Name == "Duck" and 4464245760 or 4464245760)}, Character = v, RootPart = v.PrimaryPart, JumpTick = tick() + 5, Jumping = false, Humanoid = {HipHeight = 2}}, mag
 					end
 				end
 			end
@@ -606,7 +606,7 @@ local function EntityNearPosition(distance, ignore, overridepos)
 						mag = (overridepos - v2.PrimaryPart.Position).magnitude
 					end
 					if mag <= closestMagnitude then
-						closestEntity, closestMagnitude = {Player = {Name = "DiamondGuardian", UserId = 1443379645}, Character = v, RootPart = v.PrimaryPart, JumpTick = tick() + 5, Jumping = false, Humanoid = {HipHeight = 2}}, mag
+						closestEntity, closestMagnitude = {Player = {Name = "DiamondGuardian", UserId = 4464245760}, Character = v, RootPart = v.PrimaryPart, JumpTick = tick() + 5, Jumping = false, Humanoid = {HipHeight = 2}}, mag
 					end
 				end
 			end
@@ -617,7 +617,7 @@ local function EntityNearPosition(distance, ignore, overridepos)
 						mag = (overridepos - v2.PrimaryPart.Position).magnitude
 					end
 					if mag <= closestMagnitude then
-						closestEntity, closestMagnitude = {Player = {Name = "GolemBoss", UserId = 1443379645}, Character = v, RootPart = v.PrimaryPart, JumpTick = tick() + 5, Jumping = false, Humanoid = {HipHeight = 2}}, mag
+						closestEntity, closestMagnitude = {Player = {Name = "GolemBoss", UserId = 4464245760}, Character = v, RootPart = v.PrimaryPart, JumpTick = tick() + 5, Jumping = false, Humanoid = {HipHeight = 2}}, mag
 					end
 				end
 			end
@@ -630,7 +630,7 @@ local function EntityNearPosition(distance, ignore, overridepos)
 						mag = (overridepos - v.PrimaryPart.Position).magnitude
 					end
 					if mag <= closestMagnitude then -- magcheck
-						closestEntity, closestMagnitude = {Player = {Name = "Drone", UserId = 1443379645}, Character = v, RootPart = v.PrimaryPart, JumpTick = tick() + 5, Jumping = false, Humanoid = {HipHeight = 2}}, mag
+						closestEntity, closestMagnitude = {Player = {Name = "Drone", UserId = 4464245760}, Character = v, RootPart = v.PrimaryPart, JumpTick = tick() + 5, Jumping = false, Humanoid = {HipHeight = 2}}, mag
 					end
 				end
 			end
@@ -683,7 +683,7 @@ local function AllNearPosition(distance, amount, sortfunction, prediction)
 				end
                 if mag <= distance then
 					if v:GetAttribute("Team") == lplr:GetAttribute("Team") then continue end
-                    table.insert(sortedentities, {Player = {Name = v.Name, UserId = (v.Name == "Duck" and 2020831224 or 1443379645), GetAttribute = function() return "none" end}, Character = v, RootPart = v.PrimaryPart, Humanoid = v.Humanoid})
+                    table.insert(sortedentities, {Player = {Name = v.Name, UserId = (v.Name == "Duck" and 4464245760 or 4464245760), GetAttribute = function() return "none" end}, Character = v, RootPart = v.PrimaryPart, Humanoid = v.Humanoid})
                 end
 			end
 		end
@@ -694,7 +694,7 @@ local function AllNearPosition(distance, amount, sortfunction, prediction)
 					mag = (entityLibrary.LocalPosition - v.PrimaryPart.Position).magnitude
 				end
                 if mag <= distance then
-                    table.insert(sortedentities, {Player = {Name = "DiamondGuardian", UserId = 1443379645, GetAttribute = function() return "none" end}, Character = v, RootPart = v.PrimaryPart, Humanoid = v.Humanoid})
+                    table.insert(sortedentities, {Player = {Name = "DiamondGuardian", UserId = 4464245760, GetAttribute = function() return "none" end}, Character = v, RootPart = v.PrimaryPart, Humanoid = v.Humanoid})
                 end
 			end
 		end
@@ -705,7 +705,7 @@ local function AllNearPosition(distance, amount, sortfunction, prediction)
 					mag = (entityLibrary.LocalPosition - v.PrimaryPart.Position).magnitude
 				end
                 if mag <= distance then
-                    table.insert(sortedentities, {Player = {Name = "GolemBoss", UserId = 1443379645, GetAttribute = function() return "none" end}, Character = v, RootPart = v.PrimaryPart, Humanoid = v.Humanoid})
+                    table.insert(sortedentities, {Player = {Name = "GolemBoss", UserId = 4464245760, GetAttribute = function() return "none" end}, Character = v, RootPart = v.PrimaryPart, Humanoid = v.Humanoid})
                 end
 			end
 		end
@@ -719,7 +719,18 @@ local function AllNearPosition(distance, amount, sortfunction, prediction)
 					if tonumber(v:GetAttribute("PlayerUserId")) == lplr.UserId then continue end
 					local droneplr = playersService:GetPlayerByUserId(v:GetAttribute("PlayerUserId"))
 					if droneplr and droneplr.Team == lplr.Team then continue end
-                    table.insert(sortedentities, {Player = {Name = "Drone", UserId = 1443379645}, GetAttribute = function() return "none" end, Character = v, RootPart = v.PrimaryPart, Humanoid = v.Humanoid})
+                    table.insert(sortedentities, {Player = {Name = "Drone", UserId = 4464245760}, GetAttribute = function() return "none" end, Character = v, RootPart = v.PrimaryPart, Humanoid = v.Humanoid})
+                end
+			end
+		end
+		for i, v in pairs(bedwarsStore.pots) do
+			if v.PrimaryPart then
+				local mag = (entityLibrary.character.HumanoidRootPart.Position - v.PrimaryPart.Position).magnitude
+				if prediction and mag > distance then
+					mag = (entityLibrary.LocalPosition - v.PrimaryPart.Position).magnitude
+				end
+                if mag <= distance then
+                    table.insert(sortedentities, {Player = {Name = "Pot", UserId = 4464245760, GetAttribute = function() return "none" end}, Character = v, RootPart = v.PrimaryPart, Humanoid = {Health = 100, MaxHealth = 100}})
                 end
 			end
 		end
@@ -1455,6 +1466,22 @@ runFunction(function()
 		if block then 
 			table.remove(bedwarsStore.blocks, block)
 			bedwarsStore.blockRaycast.FilterDescendantsInstances = {bedwarsStore.blocks}
+		end
+	end))
+	for _, ent in pairs(collectionService:GetTagged("entity")) do 
+		if ent.Name == "DesertPotEntity" then 
+			table.insert(bedwarsStore.pots, ent)
+		end
+	end
+	table.insert(vapeConnections, collectionService:GetInstanceAddedSignal("entity"):Connect(function(ent)
+		if ent.Name == "DesertPotEntity" then 
+			table.insert(bedwarsStore.pots, ent)
+		end
+	end))
+	table.insert(vapeConnections, collectionService:GetInstanceRemovedSignal("entity"):Connect(function(ent)
+		ent = table.find(bedwarsStore.pots, ent)
+		if ent then 
+			table.remove(bedwarsStore.pots, ent)
 		end
 	end))
 
@@ -4093,7 +4120,9 @@ runFunction(function()
 				killaurarangecirclepart.Anchored = true
 				killaurarangecirclepart.Material = Enum.Material.Neon
 				killaurarangecirclepart.Size = Vector3.new(killaurarange.Value * 0.7, 0.01, killaurarange.Value * 0.7)
-				killaurarangecirclepart.Parent = cam
+				if Killaura.Enabled then 
+					killaurarangecirclepart.Parent = gameCamera
+				end
 				bedwars.QueryUtil:setQueryIgnored(killaurarangecirclepart, true)
 			else
 				if killaurarangecirclepart then 
@@ -4114,7 +4143,9 @@ runFunction(function()
 				killauraaimcirclepart.Anchored = true
 				killauraaimcirclepart.Material = Enum.Material.Neon
 				killauraaimcirclepart.Size = Vector3.new(0.5, 0.5, 0.5)
-				killauraaimcirclepart.Parent = cam
+				if Killaura.Enabled then 
+					killauraaimcirclepart.Parent = gameCamera
+				end
 				bedwars.QueryUtil:setQueryIgnored(killauraaimcirclepart, true)
 			else
 				if killauraaimcirclepart then 
@@ -4569,7 +4600,7 @@ end)
 
 runFunction(function()
 	local projectileRemote = bedwars.ClientHandler:Get(bedwars.ProjectileRemote)
-	local GrappleDisabler = {Enabled = false}
+	local GrappleDisablerRange = {Value = 60}
 	GrappleDisabler = GuiLibrary.ObjectsThatCanBeSaved.UtilityWindow.Api.CreateOptionsButton({
 		Name = "GrappleDisabler",
 		Function = function(callback)
@@ -4588,7 +4619,7 @@ runFunction(function()
 							repeat
 								task.wait(.05)
 								local newpos = bedwarsStore.blocks[1].Position
-								local plr = bedwarsStore.grapple > tick() and EntityNearPosition(60, true) or nil
+								local plr = bedwarsStore.grapple > tick() and EntityNearPosition(GrappleDisablerRange.Value, true) or nil
 								local velo = Vector3.new(0, -60, 0)
 								if plr then 
 									local offsetStartPos = plr.RootPart.CFrame.p - plr.RootPart.CFrame.lookVector
@@ -4621,6 +4652,13 @@ runFunction(function()
 		HoverText = "Lets you jump farther (Not landing on same level & Spamming can lead to lagbacks)"
 	})
 end)
+GrappleDisablerRange = GrappleDisabler.CreateSlider({
+	Name = "Range",
+	Function = function() end,
+	Min = 0,
+	Max = 60,
+	Default = 60
+})
 
 local spiderActive = false
 local holdingshift = false
@@ -4770,6 +4808,7 @@ runFunction(function()
 	local ProjectileAuraRange = {Value = 40}
 	local projectileRemote = bedwars.ClientHandler:Get(bedwars.ProjectileRemote)
 	local lastTarget
+	local fireDelays = {}
 
 	local function shootProjectile(item, ammotypething)
 		local plr = EntityNearPosition(ProjectileAuraRange.Value)
@@ -4830,11 +4869,15 @@ runFunction(function()
 							if bedwarsStore.matchState == 0 then continue end
 						end
 						if entityLibrary.isAlive then
-							local bow = getBow()
-							if bow and getItem("arrow") then
-								shootProjectile(bow, "arrow")
-							else
-								lastTarget = nil
+							if getItem("arrow") then
+								for slot, item in pairs(bedwarsStore.localInventory.inventory.items) do
+									if item.itemType:find("bow") then 
+										if fireDelays[item.itemType] == nil or fireDelays[item.itemType] < tick() then
+											task.spawn(shootProjectile, item, "arrow")
+											fireDelays[item.itemType] = tick() + bedwars.ItemTable[item.itemType].projectileSource.fireDelaySec
+										end
+									end
+								end
 							end
 						else
 							lastTarget = nil
@@ -8459,6 +8502,90 @@ end)
 runFunction(function()
 	local justsaid = ""
 	local leavesaid = false
+	local alreadyreported = {}
+
+	local function removerepeat(str)
+		local newstr = ""
+		local lastlet = ""
+		for i,v in pairs(str:split("")) do 
+			if v ~= lastlet then
+				newstr = newstr..v 
+				lastlet = v
+			end
+		end
+		return newstr
+	end
+
+	local reporttable = {
+		gay = "Bullying",
+		gae = "Bullying",
+		gey = "Bullying",
+		hack = "Scamming",
+		exploit = "Scamming",
+		cheat = "Scamming",
+		hecker = "Scamming",
+		haxker = "Scamming",
+		hacer = "Scamming",
+		report = "Bullying",
+		fat = "Bullying",
+		black = "Bullying",
+		getalife = "Bullying",
+		fatherless = "Bullying",
+		report = "Bullying",
+		fatherless = "Bullying",
+		disco = "Offsite Links",
+		yt = "Offsite Links",
+		dizcourde = "Offsite Links",
+		retard = "Swearing",
+		bad = "Bullying",
+		trash = "Bullying",
+		nolife = "Bullying",
+		nolife = "Bullying",
+		loser = "Bullying",
+		killyour = "Bullying",
+		kys = "Bullying",
+		hacktowin = "Bullying",
+		bozo = "Bullying",
+		kid = "Bullying",
+		adopted = "Bullying",
+		linlife = "Bullying",
+		commitnotalive = "Bullying",
+		vape = "Offsite Links",
+		futureclient = "Offsite Links",
+		download = "Offsite Links",
+		youtube = "Offsite Links",
+		die = "Bullying",
+		lobby = "Bullying",
+		ban = "Bullying",
+		wizard = "Bullying",
+		wisard = "Bullying",
+		witch = "Bullying",
+		magic = "Bullying",
+	}
+	local reporttableexact = {
+		L = "Bullying",
+	}
+
+
+	local function findreport(msg)
+		local checkstr = removerepeat(msg:gsub("%W+", ""):lower())
+		for i,v in pairs(reporttable) do 
+			if checkstr:find(i) then 
+				return v, i
+			end
+		end
+		for i,v in pairs(reporttableexact) do 
+			if checkstr == i then 
+				return v, i
+			end
+		end
+		for i,v in pairs(AutoToxicPhrases5.ObjectList) do 
+			if checkstr:find(v) then 
+				return "Bullying", v
+			end
+		end
+		return nil
+	end
 
 	AutoToxic = GuiLibrary.ObjectsThatCanBeSaved.UtilityWindow.Api.CreateOptionsButton({
 		Name = "AutoToxic",
@@ -8533,6 +8660,24 @@ runFunction(function()
 						end
 						local msg = custommsg or "Imagine lagbacking L "..(plr.DisplayName or plr.Name).." | wurst private on top"
 						replicatedStorageService.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg, "All")
+					end
+				end))
+				table.insert(AutoToxic.Connections, replicatedStorageService.DefaultChatSystemChatEvents.OnMessageDoneFiltering.OnClientEvent:Connect(function(tab, channel)
+					if AutoToxicRespond.Enabled then
+						local plr = playersService:FindFirstChild(tab.FromSpeaker)
+						local args = tab.Message:split(" ")
+						if plr and plr ~= lplr and not alreadyreported[plr] then
+							local reportreason, reportedmatch = findreport(tab.Message)
+							if reportreason then 
+								alreadyreported[plr] = true
+								local custommsg = #AutoToxicPhrases4.ObjectList > 0 and AutoToxicPhrases4.ObjectList[math.random(1, #AutoToxicPhrases4.ObjectList)]
+								if custommsg then
+									custommsg = custommsg:gsub("<name>", (plr.DisplayName or plr.Name))
+								end
+								local msg = custommsg or "I don't care about the fact that I'm hacking, I care about you dying in a block game. L "..(plr.DisplayName or plr.Name).." | vxpe on top"
+								replicatedStorageService.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg, "All")
+							end
+						end
 					end
 				end))
 			end
@@ -8865,17 +9010,19 @@ runFunction(function()
 					repeat
 						local itemdrops = collectionService:GetTagged("ItemDrop")
 						for i,v in pairs(itemdrops) do
-							if entityLibrary.isAlive and ((entityLibrary.LocalPosition or entityLibrary.character.HumanoidRootPart.Position) - v.Position).magnitude <= PickupRangeRange.Value and (pickedup[v] == nil or pickedup[v] <= tick()) and (v:GetAttribute("ClientDropTime") and tick() - v:GetAttribute("ClientDropTime") > 2 or v:GetAttribute("ClientDropTime") == nil) then
-								task.spawn(function()
-									pickedup[v] = tick() + 0.2
-									bedwars.ClientHandler:Get(bedwars.PickupRemote):CallServerAsync({
-										itemDrop = v
-									}):andThen(function(suc)
-										if suc then
-											bedwars.SoundManager:playSound(bedwars.SoundList.PICKUP_ITEM_DROP)
-										end
+							if entityLibrary.isAlive and (v:GetAttribute("ClientDropTime") and tick() - v:GetAttribute("ClientDropTime") > 2 or v:GetAttribute("ClientDropTime") == nil) then
+								if ((entityLibrary.LocalPosition or entityLibrary.character.HumanoidRootPart.Position) - v.Position).magnitude <= PickupRangeRange.Value and (pickedup[v] == nil or pickedup[v] <= tick()) then
+									task.spawn(function()
+										pickedup[v] = tick() + 0.2
+										bedwars.ClientHandler:Get(bedwars.PickupRemote):CallServerAsync({
+											itemDrop = v
+										}):andThen(function(suc)
+											if suc then
+												bedwars.SoundManager:playSound(bedwars.SoundList.PICKUP_ITEM_DROP)
+											end
+										end)
 									end)
-								end)
+								end
 							end
 						end
 						task.wait()
