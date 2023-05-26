@@ -42,6 +42,7 @@ local bedwarsStore = {
 	localHand = {},
 	matchState = 0,
 	matchStateChanged = tick(),
+	pots = {},
 	queueType = "bedwars_test",
 	statistics = {
 		beds = 0,
