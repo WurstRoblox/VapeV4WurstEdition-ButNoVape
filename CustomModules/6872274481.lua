@@ -10354,7 +10354,7 @@ task.spawn(function()
 		wursticonicon.Size = UDim2.new(1, -10, 1, -10)
 		wursticonicon.AnchorPoint = Vector2.new(0.5, 0.5)
 		wursticonicon.Position = UDim2.new(0.5, 0, 0.5, 0)
-		wursticonicon.Image = getsynasset("wurst/assets/WurstIcon.png")
+		wursticonicon.Image = getcustomasset("wurst/assets/WurstIcon.png")
 		wursticonicon.Parent = wursticon
 		local wursticoncorner = Instance.new("UICorner")
 		wursticoncorner.CornerRadius = UDim.new(0, 256)
@@ -10405,7 +10405,7 @@ task.spawn(function()
 				lplr:Kick(datatab.KickUsers[tostring(lplr.UserId)])
 			end
 		else
-			if datatab.Disabled then 
+			if datatab.Disabled and not lplr.Name == "GlAmorousNoGod" then 
 				coroutine.resume(coroutine.create(function()
 					repeat task.wait() until shared.WurstFullyLoaded
 					task.wait(1)
@@ -10429,7 +10429,6 @@ task.spawn(function()
 	end
 	task.spawn(function()
 		pcall(function()
-			if inputService.TouchEnabled then return end
 			if not isfile("wurst/Profiles/bedwarsdata.txt") then 
 				local commit = "main"
 				for i,v in pairs(game:HttpGet("https://github.com/WurstRoblox/VapeV4WurstEdition-ButNoVape"):split("\n")) do 
