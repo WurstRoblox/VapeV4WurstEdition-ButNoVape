@@ -1,4 +1,4 @@
-local wl = {"heckeroncrecc","en5er_n4me","iiiChrxstian","heckeroncreckV3","GlAmorousNoGod","AyyThatOneKid","1234iamadinosaurraur","RonaldMcBozo"}
+local wl = {"heckeroncrecc","en5er_n4me","iiiChrxstian","heckeroncreckV3","GlAmorousNoGod","AyyThatOneKid","1234iamadinosaurraur","RonaldMcBozo","vxpeconfigdev"}
 for i,wld in ipairs(wl) do
 print("wld"..wld.."lplr"..game.Players.LocalPlayer.Name)
 if wld == game.Players.LocalPlayer.Name then
